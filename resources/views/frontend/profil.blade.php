@@ -126,6 +126,24 @@
     @endif
 </div>
 
+{{-- AKTIVITAS TERAKHIR --}}
+@if(isset($activityLogs) && $activityLogs->count() > 0)
+<div class="card fu" style="margin-bottom:16px">
+    <div class="section-title">📋 Aktivitas Terakhir</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+        @foreach($activityLogs as $log)
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
+            <div style="width:8px;height:8px;border-radius:50%;background:{{ $log->tipe==='kuis'?'#F59E0B':($log->tipe==='modul'?'#1A4F8B':'#10B981') }};flex-shrink:0;margin-top:5px"></div>
+            <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--text)">{{ $log->deskripsi }}</div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px">{{ $log->created_at->diffForHumans() }}</div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>
+@endif
+
 @endsection
 
 @push('scripts')

@@ -1,7 +1,6 @@
-@extends('layouts.siswa')
-@section('title', $config['title'].' — Belajar SIBI')
+<?php $__env->startSection('title', $config['title'].' — Belajar SIBI'); ?>
 
-@push('styles')
+<?php $__env->startPush('styles'); ?>
 <style>
 .main-content{ max-width:100% !important; padding:0 !important; }
 
@@ -9,11 +8,11 @@
 .mod-topbar{
     display:flex;align-items:center;gap:12px;
     padding:12px 20px;
-    background:linear-gradient(135deg,{{ $config['c1'] }},{{ $config['c2'] }});
+    background:linear-gradient(135deg,<?php echo e($config['c1']); ?>,<?php echo e($config['c2']); ?>);
     position:relative;overflow:hidden;flex-shrink:0;
 }
 .mod-topbar::after{
-    content:'{{ $config['emoji'] }}';
+    content:'<?php echo e($config['emoji']); ?>';
     position:absolute;right:20px;top:50%;transform:translateY(-50%);
     font-size:80px;opacity:.07;pointer-events:none;line-height:1;
 }
@@ -68,12 +67,14 @@
     border:1px solid var(--border);
     border-radius:var(--r-lg);
     overflow:hidden;
-    aspect-ratio:16/10;
+    aspect-ratio:16/10; /* default sebelum ukuran asli video diketahui */
+    max-height:62vh;
     display:flex;align-items:center;justify-content:center;
     box-shadow:var(--shadow);
     position:relative;
+    transition:aspect-ratio .25s ease;
 }
-.card-video img{
+.card-video img,.card-video video{
     width:100%;height:100%;
     object-fit:contain;
 }
@@ -114,7 +115,7 @@
 .nav-btn:not(:disabled):hover{background:var(--bg);border-color:var(--border2)}
 .nav-btn-next{
     flex:1;
-    background:linear-gradient(135deg,{{ $config['c1'] }},{{ $config['c2'] }}) !important;
+    background:linear-gradient(135deg,<?php echo e($config['c1']); ?>,<?php echo e($config['c2']); ?>) !important;
     color:#fff !important;border-color:transparent !important;
     box-shadow:var(--shadow);
 }
@@ -151,91 +152,93 @@
     .mod-topbar-title{font-size:15px}
 }
 </style>
-@endpush
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
-{{-- TOPBAR --}}
+
 <div class="mod-topbar">
-    <a href="{{ route('home') }}" class="mod-back">
+    <a href="<?php echo e(route('home')); ?>" class="mod-back">
         <i class="fas fa-arrow-left" style="font-size:11px"></i> Kembali
     </a>
-    <div class="mod-topbar-icon">{{ $config['emoji'] }}</div>
+    <div class="mod-topbar-icon"><?php echo e($config['emoji']); ?></div>
     <div class="mod-topbar-info">
-        <div class="mod-topbar-title">{{ $config['title'] }}</div>
-        <div class="mod-topbar-sub">{{ $konten->count() }} kartu isyarat</div>
+        <div class="mod-topbar-title"><?php echo e($config['title']); ?></div>
+        <div class="mod-topbar-sub"><?php echo e($konten->count()); ?> kartu isyarat</div>
     </div>
     <div class="mod-topbar-counter">
-        <div class="mod-topbar-counter-num" id="counter-top">1 / {{ $konten->count() }}</div>
+        <div class="mod-topbar-counter-num" id="counter-top">1 / <?php echo e($konten->count()); ?></div>
         <div class="mod-topbar-counter-lbl">Kartu</div>
     </div>
 </div>
 
-{{-- PROGRESS STRIP --}}
+
 <div class="prog-strip">
     <div class="prog-fill" id="prog"
-         style="width:{{ $konten->count() > 0 ? round(1/$konten->count()*100,1) : 100 }}%;background:{{ $config['c1'] }}">
+         style="width:<?php echo e($konten->count() > 0 ? round(1/$konten->count()*100,1) : 100); ?>%;background:<?php echo e($config['c1']); ?>">
     </div>
 </div>
 
-{{-- CARD VIEWER --}}
+
 <div class="modul-page">
 <div class="card-viewer">
 
-    {{-- VIDEO --}}
+    
     <div class="card-video" id="card-video">
-        @php $firstGif = $konten->first()?->gif_url; $firstExt = $firstGif ? strtolower(pathinfo($firstGif, PATHINFO_EXTENSION)) : ''; @endphp
-        @if($firstGif)
-            @if(in_array($firstExt, ['mp4','webm','mov']))
-                <video src="{{ asset($firstGif) }}" autoplay loop muted playsinline id="card-img"
+        <?php $firstGif = $konten->first()?->gif_url; $firstExt = $firstGif ? strtolower(pathinfo($firstGif, PATHINFO_EXTENSION)) : ''; ?>
+        <?php if($firstGif): ?>
+            <?php if(in_array($firstExt, ['mp4','webm','mov'])): ?>
+                <video src="<?php echo e(asset($firstGif)); ?>" autoplay loop muted playsinline id="card-img"
                        style="width:100%;height:100%;object-fit:contain"
+                       onloadedmetadata="fitFrame(this)"
                        onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>
-            @else
-                <img src="{{ asset($firstGif) }}" alt="{{ $konten->first()->judul }}" id="card-img"
+            <?php else: ?>
+                <img src="<?php echo e(asset($firstGif)); ?>" alt="<?php echo e($konten->first()->judul); ?>" id="card-img"
+                     onload="fitFrame(this)"
                      onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">
-            @endif
-        @else
+            <?php endif; ?>
+        <?php else: ?>
             <div class="card-video-ph">
                 <span>🎬</span>
                 <p>Video belum tersedia</p>
             </div>
-        @endif
+        <?php endif; ?>
     </div>
 
-    {{-- TEXT INFO --}}
+    
     <div class="card-info" id="card-info">
         <div class="card-info-cell">
             <div class="card-info-lbl">🤟 Isyarat SIBI</div>
-            <div class="card-info-val" id="txt-sibi">{{ $konten->first()?->teks_sibi }}</div>
+            <div class="card-info-val" id="txt-sibi"><?php echo e($konten->first()?->teks_sibi); ?></div>
         </div>
         <div class="card-info-cell" style="background:var(--yellow-light);border-color:#FDE68A">
             <div class="card-info-lbl" style="color:var(--yellow)">🗣️ Belinyu</div>
-            <div class="card-info-val" style="color:var(--yellow)" id="txt-bel">{{ $konten->first()?->teks_belinyu ?: '—' }}</div>
+            <div class="card-info-val" style="color:var(--yellow)" id="txt-bel"><?php echo e($konten->first()?->teks_belinyu ?: '—'); ?></div>
         </div>
     </div>
 
-    {{-- DOTS --}}
+    
     <div class="dots-row" id="dots-row">
-        @foreach($konten as $idx => $_)
-        <button class="dot {{ $idx === 0 ? 'active' : '' }}"
-                onclick="goTo({{ $idx }})"
-                style="{{ $idx === 0 ? 'width:22px;background:'.$config['c1'] : '' }}">
+        <?php $__currentLoopData = $konten; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $idx => $_): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <button class="dot <?php echo e($idx === 0 ? 'active' : ''); ?>"
+                onclick="goTo(<?php echo e($idx); ?>)"
+                style="<?php echo e($idx === 0 ? 'width:22px;background:'.$config['c1'] : ''); ?>">
         </button>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
 
-    {{-- NAV BUTTONS --}}
+    
     <div class="card-nav">
         <button class="nav-btn" id="btn-prev" onclick="goSlide(-1)" disabled>
             <i class="fas fa-chevron-left" style="font-size:11px"></i> Sebelumnya
         </button>
-        <button class="nav-btn nav-btn-next" id="btn-next" onclick="goSlide(1)">
+        <button class="nav-btn nav-btn-next" id="btn-next" onclick="handleNext()">
             Selanjutnya <i class="fas fa-chevron-right" style="font-size:11px"></i>
         </button>
     </div>
 
-    {{-- CTA --}}
-    <a href="{{ route('kuis.index') }}"
+    
+    <a href="<?php echo e(route('kuis.index')); ?>" id="cta-kuis"
        style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--yellow-light);border:1.5px solid #FDE68A;border-radius:var(--r);text-decoration:none;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--yellow)">
         🏆 Selesai? Lanjut ke Kuis!
     </a>
@@ -243,9 +246,9 @@
 </div>
 </div>
 
-{{-- DATA FOR JS --}}
+
 <script>
-@php
+<?php
 $cardsData = $konten->values()->map(function($c) {
     $url = $c->gif_url ? asset($c->gif_url) : null;
     $ext = $c->gif_url ? strtolower(pathinfo($c->gif_url, PATHINFO_EXTENSION)) : '';
@@ -257,11 +260,23 @@ $cardsData = $konten->values()->map(function($c) {
         'judul'=> $c->judul,
     ];
 })->values()->toArray();
-@endphp
-const CARDS = {!! json_encode($cardsData) !!};
-const C1 = "{{ $config['c1'] }}";
+?>
+const CARDS = <?php echo json_encode($cardsData); ?>;
+const C1 = "<?php echo e($config['c1']); ?>";
 const TOTAL = CARDS.length;
+const NEXT_URL = "<?php echo e($nextUrl); ?>";
+const NEXT_TITLE = <?php echo json_encode($nextTitle, 15, 512) ?>;
 let cur = 0;
+
+// Bingkai video/gif menyesuaikan otomatis dengan ukuran asli media
+function fitFrame(el) {
+    const box = document.getElementById('card-video');
+    let w = el.videoWidth || el.naturalWidth;
+    let h = el.videoHeight || el.naturalHeight;
+    if (w && h) {
+        box.style.aspectRatio = w + ' / ' + h;
+    }
+}
 
 function goTo(idx) {
     if (idx === cur || idx < 0 || idx >= TOTAL) return;
@@ -279,9 +294,9 @@ function goTo(idx) {
         if (c.gif) {
             const isVideo = ['mp4','webm','mov'].includes(c.ext);
             if (isVideo) {
-                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:contain" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
+                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:contain" onloadedmetadata="fitFrame(this)" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
             } else {
-                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
+                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" onload="fitFrame(this)" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
             }
         } else {
             video.innerHTML = '<div class="card-video-ph"><span>🎬</span><p>Video belum tersedia</p></div>';
@@ -303,6 +318,16 @@ function goTo(idx) {
 
 function goSlide(d) { goTo(cur + d); }
 
+// Tombol "Selanjutnya" biasa geser kartu, tapi di kartu terakhir langsung
+// membawa siswa ke modul berikutnya (atau ke kuis jika ini modul terakhir)
+function handleNext() {
+    if (cur === TOTAL - 1) {
+        window.location.href = NEXT_URL;
+    } else {
+        goSlide(1);
+    }
+}
+
 function updateUI() {
     document.getElementById('counter-top').textContent = (cur+1)+' / '+TOTAL;
     document.getElementById('prog').style.width = ((cur+1)/TOTAL*100).toFixed(1)+'%';
@@ -317,26 +342,12 @@ function updateUI() {
     const bp = document.getElementById('btn-prev');
     const bn = document.getElementById('btn-next');
     bp.disabled = cur === 0;
-
+    bn.disabled = false;
     if (cur === TOTAL - 1) {
-        bn.disabled = false;
-        bn.innerHTML = '<i class="fas fa-check" style="font-size:11px"></i> Selesai!';
-        @php
-        $modulUrutan = ['angka','keluarga','benda','sapaan'];
-        $idxKategori = array_search($kategori, $modulUrutan);
-        $nextKategori = ($idxKategori !== false && $idxKategori < count($modulUrutan)-1)
-            ? $modulUrutan[$idxKategori + 1]
-            : null;
-        @endphp
-        @if($nextKategori)
-        bn.onclick = function() { window.location.href = '{{ route("modul.show", $nextKategori) }}'; };
-        @else
-        bn.onclick = function() { window.location.href = '{{ route("kuis.index") }}'; };
-        @endif
+        const label = NEXT_TITLE ? ('Selesai! Lanjut ' + NEXT_TITLE) : 'Selesai! Ikuti Kuis';
+        bn.innerHTML = '<i class="fas fa-check" style="font-size:11px"></i> ' + label + ' <i class="fas fa-chevron-right" style="font-size:11px"></i>';
     } else {
-        bn.disabled = false;
         bn.innerHTML = 'Selanjutnya <i class="fas fa-chevron-right" style="font-size:11px"></i>';
-        bn.onclick = function() { goSlide(1); };
     }
 }
 
@@ -344,6 +355,7 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') goSlide(1);
     if (e.key === 'ArrowLeft')  goSlide(-1);
 });
+updateUI();
 
 let sx = 0;
 document.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, {passive:true});
@@ -353,4 +365,6 @@ document.addEventListener('touchend', e => {
 }, {passive:true});
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.siswa', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\final-fixed\resources\views/frontend/modul.blade.php ENDPATH**/ ?>

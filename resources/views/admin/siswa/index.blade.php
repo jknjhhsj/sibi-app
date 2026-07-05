@@ -113,7 +113,27 @@
         </table>
     </div>
     @if($siswa->hasPages())
-    <div style="padding:14px 20px;border-top:1px solid var(--border)">{{ $siswa->links() }}</div>
+    @if(method_exists($siswa, 'hasPages') && $siswa->hasPages())
+    <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        @if($siswa->onFirstPage())
+            <span style="padding:7px 14px;border-radius:8px;background:var(--bg);color:var(--text3);font-size:13px;border:1px solid var(--border)">← Prev</span>
+        @else
+            <a href="{{ $siswa->previousPageUrl() }}" style="padding:7px 14px;border-radius:8px;background:var(--surface);color:var(--accent);font-size:13px;font-weight:600;border:1px solid var(--border);text-decoration:none">← Prev</a>
+        @endif
+        @foreach($siswa->getUrlRange(1, $siswa->lastPage()) as $page => $url)
+            @if($page == $siswa->currentPage())
+                <span style="padding:7px 12px;border-radius:8px;background:var(--accent);color:#fff;font-size:13px;font-weight:700">{{ $page }}</span>
+            @else
+                <a href="{{ $url }}" style="padding:7px 12px;border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;border:1px solid var(--border);text-decoration:none">{{ $page }}</a>
+            @endif
+        @endforeach
+        @if($siswa->hasMorePages())
+            <a href="{{ $siswa->nextPageUrl() }}" style="padding:7px 14px;border-radius:8px;background:var(--surface);color:var(--accent);font-size:13px;font-weight:600;border:1px solid var(--border);text-decoration:none">Next →</a>
+        @else
+            <span style="padding:7px 14px;border-radius:8px;background:var(--bg);color:var(--text3);font-size:13px;border:1px solid var(--border)">Next →</span>
+        @endif
+    </div>
+    @endif
     @endif
 </div>
 @endsection

@@ -12,7 +12,16 @@ class SiswaController extends Controller {
             ->withCount('hasilKuis as total_kuis')
             ->latest()->paginate(15);
 
-        // Stat kosakata per kategori
+        // Fallback: jika total_skor null, hitung manual
+        foreach ($siswa as $s) {
+            if (is_null($s->total_skor)) {
+                $s->total_skor = HasilKuisSibi::where('user_id', $s->id)->sum('skor');
+            }
+            if (is_null($s->total_kuis)) {
+                $s->total_kuis = HasilKuisSibi::where('user_id', $s->id)->count();
+            }
+        }
+
         $kosakata = [
             'angka'    => KontenSibi::where('kategori','angka')->count(),
             'keluarga' => KontenSibi::where('kategori','keluarga')->count(),
@@ -21,7 +30,6 @@ class SiswaController extends Controller {
         ];
         $totalKosakata = array_sum($kosakata);
 
-        // Distribusi kelas
         $kelasDist = User::where('role','siswa')
             ->select('kelas', DB::raw('count(*) as jml'))
             ->groupBy('kelas')
@@ -47,11 +55,11 @@ class SiswaController extends Controller {
 
         for ($i = 11; $i >= 0; $i--) {
             $tgl = now()->subMonths($i);
-            $bulanLabels[] = $tgl->translatedFormat('M Y');
-            $skorBulanan[] = (int) HasilKuisSibi::where('user_id', $user->id)
+            $bulanLabels[] = $tgl->format('M Y');
+            $skorBulanan[] = (int) round(HasilKuisSibi::where('user_id', $user->id)
                 ->whereYear('created_at', $tgl->year)
                 ->whereMonth('created_at', $tgl->month)
-                ->avg('skor') ?? 0;
+                ->avg('skor') ?? 0);
             $kuisBulanan[] = HasilKuisSibi::where('user_id', $user->id)
                 ->whereYear('created_at', $tgl->year)
                 ->whereMonth('created_at', $tgl->month)
@@ -65,10 +73,11 @@ class SiswaController extends Controller {
         $kategoriProgress = [];
         foreach (['angka','keluarga','benda','sapaan'] as $kat) {
             $mp = $modulProgress->get($kat);
+            $total = KontenSibi::where('kategori', $kat)->count();
             $kategoriProgress[$kat] = [
                 'seen'  => $mp?->kartu_dilihat ?? 0,
-                'total' => $mp?->total_kartu ?? 0,
-                'pct'   => ($mp && $mp->total_kartu > 0) ? round($mp->kartu_dilihat / $mp->total_kartu * 100) : 0,
+                'total' => $total,
+                'pct'   => ($mp && $total > 0) ? round($mp->kartu_dilihat / $total * 100) : 0,
             ];
         }
 

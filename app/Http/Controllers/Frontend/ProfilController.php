@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HasilKuisSibi;
 use App\Models\ModulProgress;
 use App\Models\KontenSibi;
+use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Auth;
 
 class ProfilController extends Controller {
@@ -36,15 +37,20 @@ class ProfilController extends Controller {
         );
         $chartData = $hasilKuis->pluck('skor');
 
+        // Aktivitas terakhir
+        $activityLogs = ActivityLog::where('user_id', $user->id)
+            ->latest()->take(10)->get();
+
         // Stats ringkas
-        $totalKuis   = $hasilKuis->count();
+        $totalKuis     = $hasilKuis->count();
         $skorTertinggi = $hasilKuis->max('skor') ?? 0;
-        $skorRata    = $totalKuis > 0 ? round($hasilKuis->avg('skor')) : 0;
+        $skorRata      = $totalKuis > 0 ? round($hasilKuis->avg('skor')) : 0;
         $totalProgress = collect($progress)->avg('persen');
 
         return view('frontend.profil', compact(
             'user','progress','chartLabels','chartData',
-            'totalKuis','skorTertinggi','skorRata','totalProgress'
+            'totalKuis','skorTertinggi','skorRata','totalProgress',
+            'activityLogs'
         ));
     }
 }
