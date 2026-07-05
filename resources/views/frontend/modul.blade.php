@@ -317,10 +317,16 @@ function updateUI() {
     const bp = document.getElementById('btn-prev');
     const bn = document.getElementById('btn-next');
     bp.disabled = cur === 0;
-    bn.disabled = cur === TOTAL - 1;
-    bn.innerHTML = cur === TOTAL - 1
-        ? '<i class="fas fa-check" style="font-size:11px"></i> Selesai!'
-        : 'Selanjutnya <i class="fas fa-chevron-right" style="font-size:11px"></i>';
+
+    if (cur === TOTAL - 1) {
+        bn.disabled = false;
+        bn.innerHTML = '<i class="fas fa-check" style="font-size:11px"></i> Selesai!';
+        bn.onclick = function() { window.location.href = '{{ route("kuis.index") }}'; };
+    } else {
+        bn.disabled = false;
+        bn.innerHTML = 'Selanjutnya <i class="fas fa-chevron-right" style="font-size:11px"></i>';
+        bn.onclick = function() { goSlide(1); };
+    }
 }
 
 document.addEventListener('keydown', e => {
