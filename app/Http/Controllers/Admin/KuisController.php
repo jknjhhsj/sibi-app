@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\SoalKuis;
+use App\Models\KontenSibi;
 use Illuminate\Http\Request;
 
 class KuisController extends Controller
@@ -12,8 +13,11 @@ class KuisController extends Controller
     {
         $soal = SoalKuis::query()
             ->when($request->kategori, fn($q, $k) => $q->where('kategori', $k))
+            ->when($request->tingkat === 'mudah', fn($q) => $q->where('level', '<=', 2))
+            ->when($request->tingkat === 'susah', fn($q) => $q->where('level', '>=', 3))
             ->orderBy('level')->orderBy('kategori')->orderBy('id')
-            ->paginate(20);
+            ->paginate(20)
+            ->withQueryString();
 
         return view('admin.kuis.index', compact('soal'));
     }
@@ -21,7 +25,8 @@ class KuisController extends Controller
     public function create()
     {
         $soal = null;
-        return view('admin.kuis.create', compact('soal'));
+        $kontenPerKategori = $this->kontenPerKategori();
+        return view('admin.kuis.create', compact('soal', 'kontenPerKategori'));
     }
 
     public function store(Request $request)
@@ -47,7 +52,8 @@ class KuisController extends Controller
     public function edit(SoalKuis $kui)
     {
         $soal = $kui;
-        return view('admin.kuis.edit', compact('soal'));
+        $kontenPerKategori = $this->kontenPerKategori();
+        return view('admin.kuis.edit', compact('soal', 'kontenPerKategori'));
     }
 
     public function update(Request $request, SoalKuis $kui)
@@ -75,5 +81,24 @@ class KuisController extends Controller
         $kui->delete();
         return redirect()->route('admin.kuis.index')
             ->with('success', 'Soal kuis berhasil dihapus!');
+    }
+
+    /**
+     * Ambil semua konten/modul yang sudah diupload, dikelompokkan per kategori,
+     * untuk dipakai sebagai pilihan dropdown "GIF Soal" di form kuis
+     * (supaya admin tidak perlu ketik path manual lagi).
+     */
+    private function kontenPerKategori(): array
+    {
+        return KontenSibi::orderBy('urutan')
+            ->get(['kategori', 'judul', 'teks_sibi', 'gif_url'])
+            ->groupBy('kategori')
+            ->map(function ($items) {
+                return $items->map(fn($i) => [
+                    'judul'    => $i->judul,
+                    'teks'     => $i->teks_sibi,
+                    'gif_url'  => $i->gif_url,
+                ])->values();
+            })->toArray();
     }
 }

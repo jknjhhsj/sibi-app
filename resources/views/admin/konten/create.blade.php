@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title','Tambah Konten')
 @section('page-title','Tambah Konten')
-@section('page-subtitle','Tambahkan kartu belajar baru')
+@section('page-subtitle','Tambahkan konten belajar baru')
 
 @push('styles')
 <style>

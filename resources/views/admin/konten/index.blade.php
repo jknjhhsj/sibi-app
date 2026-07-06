@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title','Konten SIBI')
 @section('page-title','Konten SIBI')
-@section('page-subtitle','Kelola semua kartu modul belajar')
+@section('page-subtitle','Kelola semua konten modul belajar')
 
 @section('content')
 
@@ -61,7 +61,7 @@
                         — {{ ucfirst(request('kategori')) }}
                     @endif
                 </div>
-                <div style="font-size:11px;color:var(--text3)">{{ $konten->total() }} total kartu isyarat</div>
+                <div style="font-size:11px;color:var(--text3)">{{ $konten->total() }} total konten isyarat</div>
             </div>
         </div>
     </div>
@@ -124,7 +124,7 @@
                 <td colspan="6" style="padding:60px;text-align:center">
                     <div style="width:60px;height:60px;background:var(--bg);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px">🤟</div>
                     <div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:5px">Belum Ada Konten</div>
-                    <div style="font-size:13px;color:var(--text3);margin-bottom:16px">Tambahkan kartu belajar pertama untuk modul ini.</div>
+                    <div style="font-size:13px;color:var(--text3);margin-bottom:16px">Tambahkan konten belajar pertama untuk modul ini.</div>
                     <a href="{{ route('admin.konten.create') }}" class="btn-p" style="font-size:13px">
                         <i class="fas fa-plus"></i> Tambah Sekarang
                     </a>

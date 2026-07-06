@@ -6,7 +6,7 @@
 @section('content')
 
 {{-- TOOLBAR --}}
-<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:20px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:12px">
     <div style="display:flex;flex-wrap:wrap;gap:7px">
         @foreach([
             '' =>        ['Semua',    '🗂️'],
@@ -15,8 +15,8 @@
             'benda' =>   ['Benda',    '📚'],
             'sapaan'=>   ['Sapaan',   '👋'],
         ] as $k => [$lbl, $em])
-        <a href="{{ route('admin.kuis.index') }}{{ $k ? '?kategori='.$k : '' }}"
-           class="{{ request('kategori') === $k ? 'btn btn-green' : 'btn' }}"
+        <a href="{{ route('admin.kuis.index', array_filter(['kategori'=>$k, 'tingkat'=>request('tingkat')])) }}"
+           class="{{ request('kategori', '') === $k ? 'btn btn-green' : 'btn' }}"
            style="font-size:12px;padding:7px 14px;gap:5px">
             {{ $em }} {{ $lbl }}
         </a>
@@ -26,6 +26,23 @@
        class="btn btn-green" style="margin-left:auto;font-size:13px;padding:9px 18px">
         <i class="fas fa-plus" style="font-size:11px"></i> Tambah Soal
     </a>
+</div>
+
+{{-- FILTER TINGKAT KESULITAN --}}
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px">
+    @foreach([
+        '' =>      ['Semua Tingkat', '📊', 'var(--text2)'],
+        'mudah' => ['Mudah (Lv.1–2)', '🟢', '#1B6B45'],
+        'susah' => ['Susah (Lv.3–5)', '🔴', '#B03A2E'],
+    ] as $t => [$lbl, $em, $col])
+    <a href="{{ route('admin.kuis.index', array_filter(['kategori'=>request('kategori'), 'tingkat'=>$t])) }}"
+       style="font-size:12px;padding:7px 14px;border-radius:99px;font-weight:700;text-decoration:none;
+              border:1.5px solid {{ request('tingkat','') === $t ? $col : 'var(--border)' }};
+              background:{{ request('tingkat','') === $t ? $col.'1A' : 'var(--surface)' }};
+              color:{{ request('tingkat','') === $t ? $col : 'var(--text2)' }}">
+        {{ $em }} {{ $lbl }}
+    </a>
+    @endforeach
 </div>
 
 {{-- TABLE CARD --}}
@@ -41,9 +58,13 @@
                     @if(request('kategori'))
                         — {{ ucfirst(request('kategori')) }}
                     @endif
+                    @if(request('tingkat'))
+                        — {{ request('tingkat') === 'mudah' ? 'Mudah' : 'Susah' }}
+                    @endif
                 </div>
                 <div style="font-size:11px;color:var(--text3)">
-                    {{ method_exists($soal,'total') ? $soal->total() : $soal->count() }} total soal
+                    {{ method_exists($soal,'total') ? $soal->total() : $soal->count() }} total soal —
+                    diacak otomatis saat siswa mengerjakan kuis
                 </div>
             </div>
         </div>
@@ -52,7 +73,7 @@
     <div style="overflow-x:auto">
         <table class="tbl" style="min-width:680px">
             <thead><tr>
-                @foreach(['Level','Kategori','Pertanyaan','Pilihan A','Pilihan B','Pilihan C','Jawaban','Aksi'] as $h)
+                @foreach(['Tingkat','Kategori','Pertanyaan','Pilihan A','Pilihan B','Pilihan C','Jawaban','Aksi'] as $h)
                 <th>{{ $h }}</th>
                 @endforeach
             </tr></thead>
@@ -66,11 +87,20 @@
                 'sapaan'   => ['#FEF9E7', '#D68910', '👋'],
             ];
             [$cbg, $ccol, $cem] = $catCfg[$s->kategori] ?? ['#F3F4F6', '#6B7280', '❓'];
+
+            $levelCfg = [
+                1 => ['Mudah', '#E6F4ED', '#1B6B45'],
+                2 => ['Mudah', '#E6F4ED', '#1B6B45'],
+                3 => ['Sedang', '#FEF9E7', '#D68910'],
+                4 => ['Susah', '#FDEDEA', '#B03A2E'],
+                5 => ['Susah', '#FDEDEA', '#B03A2E'],
+            ];
+            [$tlabel, $tbg, $tcol] = $levelCfg[$s->level] ?? ['—', '#F3F4F6', '#6B7280'];
             @endphp
             <tr>
                 <td>
-                    <span class="badge" style="background:var(--yellow-light);color:var(--yellow);border:1px solid #FDE68A">
-                        Lv.{{ $s->level }}
+                    <span class="badge" style="background:{{ $tbg }};color:{{ $tcol }}">
+                        Lv.{{ $s->level }} · {{ $tlabel }}
                     </span>
                 </td>
                 <td>
