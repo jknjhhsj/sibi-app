@@ -151,6 +151,10 @@
     .mod-topbar{padding:10px 14px}
     .mod-topbar-title{font-size:15px}
 }
+
+@media(min-width:768px){
+    .card-viewer{ max-width:500px; }
+}
 </style>
 @endpush
 
@@ -193,6 +197,7 @@
                        onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>
             @else
                 <img src="{{ asset($firstGif) }}" alt="{{ $konten->first()->judul }}" id="card-img"
+                     style="width:100%;height:100%;object-fit:cover"
                      onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">
             @endif
         @else
