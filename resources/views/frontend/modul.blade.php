@@ -73,9 +73,10 @@
     box-shadow:var(--shadow);
     position:relative;
 }
-.card-video img{
+.card-video img,
+.card-video video{
     width:100%;height:100%;
-    object-fit:contain;
+    object-fit:cover;
 }
 .card-video-ph{
     display:flex;flex-direction:column;align-items:center;gap:10px;
@@ -188,7 +189,7 @@
         @if($firstGif)
             @if(in_array($firstExt, ['mp4','webm','mov']))
                 <video src="{{ asset($firstGif) }}" autoplay loop muted playsinline id="card-img"
-                       style="width:100%;height:100%;object-fit:contain"
+                       style="width:100%;height:100%;object-fit:cover"
                        onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>
             @else
                 <img src="{{ asset($firstGif) }}" alt="{{ $konten->first()->judul }}" id="card-img"
@@ -279,9 +280,9 @@ function goTo(idx) {
         if (c.gif) {
             const isVideo = ['mp4','webm','mov'].includes(c.ext);
             if (isVideo) {
-                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:contain" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
+                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
             } else {
-                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
+                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
             }
         } else {
             video.innerHTML = '<div class="card-video-ph"><span>🎬</span><p>Video belum tersedia</p></div>';
