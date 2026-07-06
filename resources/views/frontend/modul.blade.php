@@ -68,7 +68,7 @@
     border:1px solid var(--border);
     border-radius:var(--r-lg);
     overflow:hidden;
-    aspect-ratio:16/10;
+    aspect-ratio:3/4;
     display:flex;align-items:center;justify-content:center;
     box-shadow:var(--shadow);
     position:relative;
@@ -77,6 +77,7 @@
 .card-video video{
     width:100%;height:100%;
     object-fit:cover;
+    object-position:top;
 }
 .card-video-ph{
     display:flex;flex-direction:column;align-items:center;gap:10px;
@@ -193,11 +194,11 @@
         @if($firstGif)
             @if(in_array($firstExt, ['mp4','webm','mov']))
                 <video src="{{ asset($firstGif) }}" autoplay loop muted playsinline id="card-img"
-                       style="width:100%;height:100%;object-fit:cover"
+                       style="width:100%;height:100%;object-fit:cover;object-position:top"
                        onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>
             @else
                 <img src="{{ asset($firstGif) }}" alt="{{ $konten->first()->judul }}" id="card-img"
-                     style="width:100%;height:100%;object-fit:cover"
+                     style="width:100%;height:100%;object-fit:cover;object-position:top"
                      onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">
             @endif
         @else
@@ -285,9 +286,9 @@ function goTo(idx) {
         if (c.gif) {
             const isVideo = ['mp4','webm','mov'].includes(c.ext);
             if (isVideo) {
-                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
+                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:cover;object-position:top" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
             } else {
-                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
+                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" style="width:100%;height:100%;object-fit:cover;object-position:top" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
             }
         } else {
             video.innerHTML = '<div class="card-video-ph"><span>🎬</span><p>Video belum tersedia</p></div>';
