@@ -125,6 +125,24 @@
     <?php endif; ?>
 </div>
 
+
+<?php if(isset($activityLogs) && $activityLogs->count() > 0): ?>
+<div class="card fu" style="margin-bottom:16px">
+    <div class="section-title">📋 Aktivitas Terakhir</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+        <?php $__currentLoopData = $activityLogs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $log): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
+            <div style="width:8px;height:8px;border-radius:50%;background:<?php echo e($log->tipe==='kuis'?'#F59E0B':($log->tipe==='modul'?'#1A4F8B':'#10B981')); ?>;flex-shrink:0;margin-top:5px"></div>
+            <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--text)"><?php echo e($log->deskripsi); ?></div>
+                <div style="font-size:11px;color:var(--text3);margin-top:2px"><?php echo e($log->created_at->diffForHumans()); ?></div>
+            </div>
+        </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </div>
+</div>
+<?php endif; ?>
+
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startPush('scripts'); ?>

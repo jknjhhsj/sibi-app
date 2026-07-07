@@ -169,11 +169,11 @@
     <div class="mod-topbar-icon">{{ $config['emoji'] }}</div>
     <div class="mod-topbar-info">
         <div class="mod-topbar-title">{{ $config['title'] }}</div>
-        <div class="mod-topbar-sub">{{ $konten->count() }} kartu isyarat</div>
+        <div class="mod-topbar-sub">{{ $konten->count() }} konten isyarat</div>
     </div>
     <div class="mod-topbar-counter">
         <div class="mod-topbar-counter-num" id="counter-top">1 / {{ $konten->count() }}</div>
-        <div class="mod-topbar-counter-lbl">Kartu</div>
+        <div class="mod-topbar-counter-lbl">Konten</div>
     </div>
 </div>
 

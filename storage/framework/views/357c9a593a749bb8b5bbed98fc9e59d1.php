@@ -1,6 +1,6 @@
 <?php $__env->startSection('title','Konten SIBI'); ?>
 <?php $__env->startSection('page-title','Konten SIBI'); ?>
-<?php $__env->startSection('page-subtitle','Kelola semua kartu modul belajar'); ?>
+<?php $__env->startSection('page-subtitle','Kelola semua konten modul belajar'); ?>
 
 <?php $__env->startSection('content'); ?>
 
@@ -38,14 +38,6 @@
 
     
     <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <form method="POST" action="<?php echo e(route('admin.konten.sync')); ?>"
-              onsubmit="return confirm('Scan folder assets/gifs dan tambahkan otomatis video yang belum ada di database?')">
-            <?php echo csrf_field(); ?>
-            <button type="submit"
-               style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--r-sm);background:#fff;color:var(--accent);font-size:13px;font-weight:700;border:1.5px solid var(--accent);cursor:pointer;white-space:nowrap">
-                <i class="fas fa-rotate"></i> Sync dari Folder
-            </button>
-        </form>
         <a href="<?php echo e(route('admin.konten.create')); ?>"
            style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--r-sm);background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-decoration:none;transition:all .15s;box-shadow:0 3px 10px rgba(26,79,139,.25);white-space:nowrap"
            onmouseover="this.style.background='#154080';this.style.transform='translateY(-1px)'"
@@ -70,7 +62,7 @@
 
                     <?php endif; ?>
                 </div>
-                <div style="font-size:11px;color:var(--text3)"><?php echo e($konten->total()); ?> total kartu isyarat</div>
+                <div style="font-size:11px;color:var(--text3)"><?php echo e($konten->total()); ?> total konten isyarat</div>
             </div>
         </div>
     </div>
@@ -136,7 +128,7 @@
                 <td colspan="6" style="padding:60px;text-align:center">
                     <div style="width:60px;height:60px;background:var(--bg);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px">🤟</div>
                     <div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:5px">Belum Ada Konten</div>
-                    <div style="font-size:13px;color:var(--text3);margin-bottom:16px">Tambahkan kartu belajar pertama untuk modul ini.</div>
+                    <div style="font-size:13px;color:var(--text3);margin-bottom:16px">Tambahkan konten belajar pertama untuk modul ini.</div>
                     <a href="<?php echo e(route('admin.konten.create')); ?>" class="btn-p" style="font-size:13px">
                         <i class="fas fa-plus"></i> Tambah Sekarang
                     </a>

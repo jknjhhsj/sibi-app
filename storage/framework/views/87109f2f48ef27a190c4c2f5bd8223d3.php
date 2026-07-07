@@ -406,7 +406,7 @@ function doAnswer(chosen,correct) {
     setTimeout(()=>{qi++;renderQ();},2000);
 }
 
-function lvResult() {
+async function lvResult() {
     tB+=sc; tS+=qs.length;
     const pct=Math.round(sc/qs.length*100);
     document.getElementById('res-ttl').textContent=`Level ${lv} Selesai!`;
@@ -415,9 +415,22 @@ function lvResult() {
     document.getElementById('res-det').textContent=`${sc} benar dari ${qs.length} soal`;
     const nb=document.getElementById('btn-nxt');
     const nt=document.getElementById('btn-nxt-txt');
-    if(lv<5){nt.textContent=`Lanjut Level ${lv+1} →`;nb.style.display='';}
-    else{nb.style.display='none';setTimeout(showFinal,400);return;}
-    fetch('/kuis/simpan',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':CSRF},body:JSON.stringify({level:lv,benar:sc,total_soal:qs.length})}).catch(()=>{});
+
+    // Simpan hasil ke server dulu
+    try {
+        await fetch('/kuis/simpan',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':CSRF},body:JSON.stringify({level:lv,benar:sc,total_soal:qs.length})});
+    } catch(e) {}
+
+    if(lv<5){
+        nt.textContent=`Lanjut Level ${lv+1} →`;
+        nb.style.display='flex';
+        nb.style.opacity='1';
+        nb.disabled=false;
+    } else {
+        nb.style.display='none';
+        setTimeout(showFinal,400);
+        return;
+    }
     show('sc-res'); confetti(); confetti();
 }
 

@@ -1,6 +1,6 @@
 <?php $__env->startSection('title','Edit Konten'); ?>
 <?php $__env->startSection('page-title','Edit Konten'); ?>
-<?php $__env->startSection('page-subtitle','Ubah kartu belajar'); ?>
+<?php $__env->startSection('page-subtitle','Ubah konten belajar'); ?>
 
 <?php $__env->startPush('styles'); ?>
 <style>

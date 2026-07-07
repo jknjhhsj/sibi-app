@@ -104,7 +104,7 @@
             <div class="prog-bar">
                 <div class="prog-fill" style="width:{{ $data['persen'] }}%"></div>
             </div>
-            <div style="font-size:10px;color:var(--text3);margin-top:3px">{{ $data['seen'] }} / {{ $data['total'] }} kartu</div>
+            <div style="font-size:10px;color:var(--text3);margin-top:3px">{{ $data['seen'] }} / {{ $data['total'] }} konten</div>
         </div>
     </div>
     @endforeach

@@ -5,44 +5,45 @@
 <?php $__env->startSection('content'); ?>
 
 
-<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px">
-
-    
-    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
-        <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-right:4px">Filter:</span>
-        <?php
-        $cats = [
-            ''         => ['Semua',    '🗂️', '#E8EDF5', '#1A4F8B', '#C3D0E8'],
-            'angka'    => ['Angka',    '🔢', '#EDE9FE', '#7C3AED', '#D8D0FB'],
-            'keluarga' => ['Keluarga', '🫂', '#E6F4ED', '#1A4F8B', '#B6DEC8'],
-            'benda'    => ['Benda',    '📚', '#FEF3C7', '#D97706', '#FDE68A'],
-            'sapaan'   => ['Sapaan',   '👋', '#EFF6FF', '#2563EB', '#BFDBFE'],
-        ];
-        $active = request('kategori', '');
-        ?>
-        <?php $__currentLoopData = $cats; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => [$lbl, $em, $bg, $col, $border]): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <?php $isActive = $active === $k; ?>
-        <a href="<?php echo e(route('admin.kuis.index')); ?><?php echo e($k ? '?kategori='.$k : ''); ?>"
-           style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:99px;font-size:12px;font-weight:700;text-decoration:none;transition:all .18s;letter-spacing:.1px;white-space:nowrap;
-                  background:<?php echo e($isActive ? $col : $bg); ?>;
-                  color:<?php echo e($isActive ? '#fff' : $col); ?>;
-                  border:1.5px solid <?php echo e($isActive ? $col : $border); ?>;
-                  box-shadow:<?php echo e($isActive ? '0 3px 10px rgba(0,0,0,.15)' : 'none'); ?>;
-                  transform:<?php echo e($isActive ? 'translateY(-1px)' : 'none'); ?>">
-            <span style="font-size:14px;line-height:1"><?php echo e($em); ?></span>
-            <?php echo e($lbl); ?>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:12px">
+    <div style="display:flex;flex-wrap:wrap;gap:7px">
+        <?php $__currentLoopData = [
+            '' =>        ['Semua',    '🗂️'],
+            'angka' =>   ['Angka',    '🔢'],
+            'keluarga'=> ['Keluarga', '🫂'],
+            'benda' =>   ['Benda',    '📚'],
+            'sapaan'=>   ['Sapaan',   '👋'],
+        ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k => [$lbl, $em]): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <a href="<?php echo e(route('admin.kuis.index', array_filter(['kategori'=>$k, 'tingkat'=>request('tingkat')]))); ?>"
+           class="<?php echo e(request('kategori', '') === $k ? 'btn btn-green' : 'btn'); ?>"
+           style="font-size:12px;padding:7px 14px;gap:5px">
+            <?php echo e($em); ?> <?php echo e($lbl); ?>
 
         </a>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </div>
-
-    
     <a href="<?php echo e(route('admin.kuis.create')); ?>"
-       style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--r-sm);background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-decoration:none;transition:all .15s;box-shadow:0 3px 10px rgba(26,79,139,.25);white-space:nowrap"
-       onmouseover="this.style.background='#154080';this.style.transform='translateY(-1px)'"
-       onmouseout="this.style.background='var(--accent)';this.style.transform='none'">
+       class="btn btn-green" style="margin-left:auto;font-size:13px;padding:9px 18px">
         <i class="fas fa-plus" style="font-size:11px"></i> Tambah Soal
     </a>
+</div>
+
+
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px">
+    <?php $__currentLoopData = [
+        '' =>      ['Semua Tingkat', '📊', 'var(--text2)'],
+        'mudah' => ['Mudah (Lv.1–2)', '🟢', '#1B6B45'],
+        'susah' => ['Susah (Lv.3–5)', '🔴', '#B03A2E'],
+    ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $t => [$lbl, $em, $col]): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+    <a href="<?php echo e(route('admin.kuis.index', array_filter(['kategori'=>request('kategori'), 'tingkat'=>$t]))); ?>"
+       style="font-size:12px;padding:7px 14px;border-radius:99px;font-weight:700;text-decoration:none;
+              border:1.5px solid <?php echo e(request('tingkat','') === $t ? $col : 'var(--border)'); ?>;
+              background:<?php echo e(request('tingkat','') === $t ? $col.'1A' : 'var(--surface)'); ?>;
+              color:<?php echo e(request('tingkat','') === $t ? $col : 'var(--text2)'); ?>">
+        <?php echo e($em); ?> <?php echo e($lbl); ?>
+
+    </a>
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </div>
 
 
@@ -59,9 +60,14 @@
                         — <?php echo e(ucfirst(request('kategori'))); ?>
 
                     <?php endif; ?>
+                    <?php if(request('tingkat')): ?>
+                        — <?php echo e(request('tingkat') === 'mudah' ? 'Mudah' : 'Susah'); ?>
+
+                    <?php endif; ?>
                 </div>
                 <div style="font-size:11px;color:var(--text3)">
-                    <?php echo e(method_exists($soal,'total') ? $soal->total() : $soal->count()); ?> total soal
+                    <?php echo e(method_exists($soal,'total') ? $soal->total() : $soal->count()); ?> total soal —
+                    diacak otomatis saat siswa mengerjakan kuis
                 </div>
             </div>
         </div>
@@ -70,7 +76,7 @@
     <div style="overflow-x:auto">
         <table class="tbl" style="min-width:680px">
             <thead><tr>
-                <?php $__currentLoopData = ['Level','Kategori','Pertanyaan','Pilihan A','Pilihan B','Pilihan C','Jawaban','Aksi']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $h): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php $__currentLoopData = ['Tingkat','Kategori','Pertanyaan','Pilihan A','Pilihan B','Pilihan C','Jawaban','Aksi']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $h): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <th><?php echo e($h); ?></th>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tr></thead>
@@ -84,11 +90,20 @@
                 'sapaan'   => ['#FEF9E7', '#D68910', '👋'],
             ];
             [$cbg, $ccol, $cem] = $catCfg[$s->kategori] ?? ['#F3F4F6', '#6B7280', '❓'];
+
+            $levelCfg = [
+                1 => ['Mudah', '#E6F4ED', '#1B6B45'],
+                2 => ['Mudah', '#E6F4ED', '#1B6B45'],
+                3 => ['Sedang', '#FEF9E7', '#D68910'],
+                4 => ['Susah', '#FDEDEA', '#B03A2E'],
+                5 => ['Susah', '#FDEDEA', '#B03A2E'],
+            ];
+            [$tlabel, $tbg, $tcol] = $levelCfg[$s->level] ?? ['—', '#F3F4F6', '#6B7280'];
             ?>
             <tr>
                 <td>
-                    <span class="badge" style="background:var(--yellow-light);color:var(--yellow);border:1px solid #FDE68A">
-                        Lv.<?php echo e($s->level); ?>
+                    <span class="badge" style="background:<?php echo e($tbg); ?>;color:<?php echo e($tcol); ?>">
+                        Lv.<?php echo e($s->level); ?> · <?php echo e($tlabel); ?>
 
                     </span>
                 </td>
@@ -141,8 +156,31 @@
             </tbody>
         </table>
     </div>
+
+    <?php if(method_exists($soal, 'hasPages') && $soal->hasPages()): ?>
+    <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <?php if($soal->onFirstPage()): ?>
+            <span style="padding:7px 14px;border-radius:8px;background:var(--bg);color:var(--text3);font-size:13px;border:1px solid var(--border)">← Prev</span>
+        <?php else: ?>
+            <a href="<?php echo e($soal->previousPageUrl()); ?>" style="padding:7px 14px;border-radius:8px;background:var(--surface);color:var(--accent);font-size:13px;font-weight:600;border:1px solid var(--border);text-decoration:none">← Prev</a>
+        <?php endif; ?>
+
+        <?php $__currentLoopData = $soal->getUrlRange(1, $soal->lastPage()); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page => $url): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php if($page == $soal->currentPage()): ?>
+                <span style="padding:7px 12px;border-radius:8px;background:var(--accent);color:#fff;font-size:13px;font-weight:700"><?php echo e($page); ?></span>
+            <?php else: ?>
+                <a href="<?php echo e($url); ?>" style="padding:7px 12px;border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;border:1px solid var(--border);text-decoration:none"><?php echo e($page); ?></a>
+            <?php endif; ?>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+        <?php if($soal->hasMorePages()): ?>
+            <a href="<?php echo e($soal->nextPageUrl()); ?>" style="padding:7px 14px;border-radius:8px;background:var(--surface);color:var(--accent);font-size:13px;font-weight:600;border:1px solid var(--border);text-decoration:none">Next →</a>
+        <?php else: ?>
+            <span style="padding:7px 14px;border-radius:8px;background:var(--bg);color:var(--text3);font-size:13px;border:1px solid var(--border)">Next →</span>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
 </div>
 
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\final\resources\views/admin/kuis/index.blade.php ENDPATH**/ ?>

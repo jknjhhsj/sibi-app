@@ -11,10 +11,12 @@ class KuisController extends Controller
 {
     public function index(Request $request)
     {
+        $tingkatMap = ['mudah' => 1, 'sedang' => 2, 'susah' => 3];
+
         $soal = SoalKuis::query()
             ->when($request->kategori, fn($q, $k) => $q->where('kategori', $k))
-            ->when($request->tingkat === 'mudah', fn($q) => $q->where('level', '<=', 2))
-            ->when($request->tingkat === 'susah', fn($q) => $q->where('level', '>=', 3))
+            ->when($request->tingkat && isset($tingkatMap[$request->tingkat]),
+                fn($q) => $q->where('level', $tingkatMap[$request->tingkat]))
             ->orderBy('level')->orderBy('kategori')->orderBy('id')
             ->paginate(20)
             ->withQueryString();
@@ -33,14 +35,16 @@ class KuisController extends Controller
     {
         $data = $request->validate([
             'kategori'      => 'required|in:angka,keluarga,benda,sapaan',
-            'level'         => 'required|integer|min:1|max:5',
-            'gif_soal'      => 'nullable|string|max:255',
+            'level'         => 'required|integer|min:1|max:3',
+            'gif_soal'      => 'required|string|max:255',
             'pertanyaan'    => 'required|string|max:500',
             'pilihan_a'     => 'required|string|max:200',
             'pilihan_b'     => 'required|string|max:200',
             'pilihan_c'     => 'nullable|string|max:200',
             'pilihan_d'     => 'nullable|string|max:200',
             'jawaban_benar' => 'required|in:a,b,c,d',
+        ], [
+            'gif_soal.required' => 'Video/GIF soal wajib dipilih supaya jelas untuk siswa tunarungu.',
         ]);
 
         SoalKuis::create($data);
@@ -60,14 +64,16 @@ class KuisController extends Controller
     {
         $data = $request->validate([
             'kategori'      => 'required|in:angka,keluarga,benda,sapaan',
-            'level'         => 'required|integer|min:1|max:5',
-            'gif_soal'      => 'nullable|string|max:255',
+            'level'         => 'required|integer|min:1|max:3',
+            'gif_soal'      => 'required|string|max:255',
             'pertanyaan'    => 'required|string|max:500',
             'pilihan_a'     => 'required|string|max:200',
             'pilihan_b'     => 'required|string|max:200',
             'pilihan_c'     => 'nullable|string|max:200',
             'pilihan_d'     => 'nullable|string|max:200',
             'jawaban_benar' => 'required|in:a,b,c,d',
+        ], [
+            'gif_soal.required' => 'Video/GIF soal wajib dipilih supaya jelas untuk siswa tunarungu.',
         ]);
 
         $kui->update($data);
@@ -83,11 +89,6 @@ class KuisController extends Controller
             ->with('success', 'Soal kuis berhasil dihapus!');
     }
 
-    /**
-     * Ambil semua konten/modul yang sudah diupload, dikelompokkan per kategori,
-     * untuk dipakai sebagai pilihan dropdown "GIF Soal" di form kuis
-     * (supaya admin tidak perlu ketik path manual lagi).
-     */
     private function kontenPerKategori(): array
     {
         return KontenSibi::orderBy('urutan')

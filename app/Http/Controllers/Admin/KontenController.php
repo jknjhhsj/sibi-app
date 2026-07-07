@@ -28,8 +28,10 @@ class KontenController extends Controller
             'judul'        => 'required|string|max:100',
             'teks_sibi'    => 'required|string|max:100',
             'teks_belinyu' => 'nullable|string|max:100',
-            'media_file'   => 'nullable|file|mimes:gif,mp4,webm,mov|max:20480',
+            'media_file'   => 'required|file|mimes:gif,mp4,webm,mov|max:20480',
             'urutan'       => 'nullable|integer|min:0',
+        ], [
+            'media_file.required' => 'Video/GIF wajib diupload untuk konten baru.',
         ]);
 
         $gif_url = null;
@@ -129,7 +131,6 @@ class KontenController extends Controller
         $added      = 0;
         $skipped    = 0;
 
-        // Ambil semua sub-folder kategori secara dinamis (angka, keluarga, benda, sapaan, huruf, dll)
         $kategoriFolders = array_filter(scandir($base), function ($f) use ($base) {
             return $f !== '.' && $f !== '..' && is_dir($base . '/' . $f);
         });
@@ -149,13 +150,11 @@ class KontenController extends Controller
             foreach ($files as $file) {
                 $relPath = "assets/gifs/{$kategori}/{$file}";
 
-                // Lewati kalau file ini sudah terhubung ke konten yang ada
                 if (KontenSibi::where('gif_url', $relPath)->exists()) {
                     $skipped++;
                     continue;
                 }
 
-                // Ambil kata dari nama file, buang akhiran timestamp "-1781456998"
                 $name = pathinfo($file, PATHINFO_FILENAME);
                 $kata = preg_replace('/-\d{6,}$/', '', $name);
                 $kata = str_replace(['-', '_'], ' ', $kata);

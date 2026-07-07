@@ -104,7 +104,7 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#F0F
     <div class="ilus">
       <div class="ilus-circle">🎉</div>
       <div class="ilus-title">Gabung & Mulai<br><em>Belajar Bareng!</em></div>
-      <div class="ilus-desc">Buat akun gratis dan langsung akses 56 kartu isyarat + kuis 5 level.</div>
+      <div class="ilus-desc">Buat akun gratis dan langsung akses puluhan konten isyarat + kuis 3 tingkat.</div>
     </div>
     <div class="chips">
       <div class="chip">✅ Gratis Selamanya</div>

@@ -1,6 +1,6 @@
 <?php $__env->startSection('title','Tambah Konten'); ?>
 <?php $__env->startSection('page-title','Tambah Konten'); ?>
-<?php $__env->startSection('page-subtitle','Tambahkan kartu belajar baru'); ?>
+<?php $__env->startSection('page-subtitle','Tambahkan konten belajar baru'); ?>
 
 <?php $__env->startPush('styles'); ?>
 <style>

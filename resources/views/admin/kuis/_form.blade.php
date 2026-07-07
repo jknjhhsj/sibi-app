@@ -10,9 +10,9 @@
         @error('kategori')<div class="ferr"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>@enderror
     </div>
     <div>
-        <label class="flbl"><i class="fas fa-layer-group" style="color:var(--yellow);margin-right:5px"></i>Tingkat Kesulitan (1–5) *</label>
+        <label class="flbl"><i class="fas fa-layer-group" style="color:var(--yellow);margin-right:5px"></i>Tingkat Kesulitan *</label>
         <select name="level" class="inp" required>
-            @foreach([1=>'⭐ Mudah',2=>'⭐⭐ Sedang',3=>'⭐⭐⭐ Menantang',4=>'⭐⭐⭐⭐ Sulit',5=>'⭐⭐⭐⭐⭐ Ahli'] as $n => $l)
+            @foreach([1=>['🟢 Mudah','#1B6B45'],2=>['🟡 Sedang','#D68910'],3=>['🔴 Susah','#B03A2E']] as $n => [$l, $col])
             <option value="{{ $n }}" {{ old('level', $soal?->level) == $n ? 'selected' : '' }}>{{ $l }}</option>
             @endforeach
         </select>
@@ -30,15 +30,16 @@
 <div style="margin-bottom:18px">
     <label class="flbl">
         <i class="fas fa-film" style="color:var(--purple);margin-right:5px"></i>
-        Video / GIF Soal
+        Video / GIF Soal *
         <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(pilih dari materi yang sudah diupload)</span>
     </label>
-    <select name="gif_soal" id="sel-gif-soal" class="inp">
+    <select name="gif_soal" id="sel-gif-soal" class="inp" required>
         <option value="">— Pilih kategori dulu di atas —</option>
     </select>
     <div style="font-size:11px;color:var(--text3);margin-top:6px">
-        <i class="fas fa-info-circle"></i> Wajib diisi teks bahasa dan video/GIF-nya supaya soal jelas untuk siswa tunarungu.
+        <i class="fas fa-info-circle"></i> Video/GIF wajib dipilih supaya soal jelas untuk siswa tunarungu.
     </div>
+    @error('gif_soal')<div class="ferr"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>@enderror
 
     <div id="gif-soal-preview" style="display:none;margin-top:10px;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;max-width:220px;background:var(--bg)"></div>
 </div>
@@ -70,7 +71,6 @@
 
 @push('scripts')
 <script>
-// Data konten/materi yang sudah diupload, dikelompokkan per kategori
 const KONTEN_PER_KATEGORI = {!! json_encode($kontenPerKategori ?? []) !!};
 const GIF_SOAL_TERSIMPAN = @json(old('gif_soal', $soal?->gif_soal));
 

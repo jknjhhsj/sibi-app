@@ -59,7 +59,7 @@
   <div class="adm-card fu d2" style="padding:18px 20px">
     <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Level Tertinggi</div>
     <div style="font-family:'Outfit',sans-serif;font-size:28px;font-weight:900;color:var(--yellow)">{{ $levelTercapai }}</div>
-    <div style="font-size:12px;color:var(--text3);margin-top:2px">dari 5 level</div>
+    <div style="font-size:12px;color:var(--text3);margin-top:2px">dari 3 tingkat</div>
   </div>
   <div class="adm-card fu d3" style="padding:18px 20px">
     <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Kuis Selesai</div>
@@ -105,7 +105,7 @@
       <div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
           <span style="font-size:13px;font-weight:600;color:var(--text)">{{ $ico }} {{ ucfirst($kat) }}</span>
-          <span style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:{{ $color }}">{{ $p['seen'] }}/{{ $p['total'] }} kartu</span>
+          <span style="font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;color:{{ $color }}">{{ $p['seen'] }}/{{ $p['total'] }} konten</span>
         </div>
         <div class="prog-bar-h">
           <div class="prog-fill-h" style="width:{{ $p['pct'] }}%;background:{{ $color }}"></div>

@@ -74,7 +74,7 @@ Selamat datang, <?php echo e(Auth::user()->name ?? 'Admin'); ?>
 <?php
 $cards = [
     [route('admin.siswa.index'), '#EEF2FF', '#4338CA', 'fas fa-users',          'Total Siswa',     $stats['total_siswa'],    'Terdaftar di sistem'],
-    [route('admin.konten.index'),'#E6F4ED', '#1A4F8B', 'fas fa-hand-paper',     'Konten SIBI',     $stats['total_konten'],   'Total kartu isyarat'],
+    [route('admin.konten.index'),'#E6F4ED', '#1A4F8B', 'fas fa-hand-paper',     'Konten SIBI',     $stats['total_konten'],   'Total konten isyarat'],
     [route('admin.kuis.index'),  '#FFFBEB', '#D97706', 'fas fa-question-circle','Soal Kuis',       $stats['total_soal'],     'Total bank soal'],
     ['#',                        '#FFF0F0', '#DC2626', 'fas fa-trophy',          'Kuis Dikerjakan', $stats['total_kuis'],     'Total pengerjaan siswa'],
 ];

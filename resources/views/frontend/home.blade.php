@@ -84,7 +84,7 @@
 </div>
 
 <div class="stats-row">
-    @foreach([['🔢','#DBEAFE','21','Kartu Angka'],['🫂','#EBF5FB','10','Kartu Keluarga'],['📚','#E0F2FE','15','Kartu Benda'],['👋','#DBEAFE','10','Kartu Sapaan']] as $i=>[$em,$bg,$n,$l])
+    @foreach([['🔢','#DBEAFE','17','Konten Angka'],['🫂','#EBF5FB','8','Konten Keluarga'],['📚','#E0F2FE','23','Konten Benda'],['👋','#DBEAFE','11','Konten Sapaan']] as $i=>[$em,$bg,$n,$l])
     <div class="stat-card fu d{{ $i+1 }}">
         <div class="stat-icon" style="background:{{ $bg }}">{{ $em }}</div>
         <div><div class="stat-num">{{ $n }}</div><div class="stat-lbl">{{ $l }}</div></div>
@@ -95,10 +95,10 @@
 <div class="sec-hd"><div class="sec-title">Modul Belajar</div></div>
 <div class="module-grid">
     @foreach([
-        ['modul.show','angka',   '🔢','Angka',   '0 – 20','linear-gradient(135deg,#0D2B6E,#1A4F8B)','21 kartu'],
-        ['modul.show','keluarga','👪','Keluarga','Keluarga','linear-gradient(135deg,#093C6B,#1A6DB0)','10 kartu'],
-        ['modul.show','benda',   '📚','Benda',   'Benda','linear-gradient(135deg,#0D2651,#1A4F8B)','15 kartu'],
-        ['modul.show','sapaan',  '👋','Sapaan',  'Sapaan','linear-gradient(135deg,#0D2651,#2563B0)','10 kartu'],
+       ['modul.show','angka',   '🔢','Angka',   '1 – 1000.000','linear-gradient(135deg,#0D2B6E,#1A4F8B)','21 Angka'],
+       ['modul.show','keluarga','👪','Keluarga','Keluarga','linear-gradient(135deg,#093C6B,#1A6DB0)','10 Anggota Keluarga'],
+       ['modul.show','benda',   '📚','Benda',   'Benda','linear-gradient(135deg,#0D2651,#1A4F8B)','15 Benda'],
+       ['modul.show','sapaan',  '👋','Sapaan',  'Sapaan','linear-gradient(135deg,#0D2651,#2563B0)','10 Kata Sapaan'],
     ] as $i=>[$r,$p,$em,$t,$d,$bg,$tag])
     <a href="{{ route($r,$p) }}" class="mod-card fu d{{ $i+1 }}">
         <div class="mod-body" style="background:{{ $bg }}">
@@ -117,7 +117,7 @@
 <a href="{{ route('kuis.index') }}" class="kuis-banner fu d3">
     <div style="font-size:42px">🏆</div>
     <div style="flex:1">
-        <span class="mod-tag">5 level</span>
+        <span class="mod-tag">3 tingkat</span>
         <div class="mod-title" style="font-size:18px">Kuis Interaktif</div>
         <div class="mod-desc">Uji kemampuan isyaratmu!</div>
     </div>
@@ -126,7 +126,7 @@
 
 <div class="sec-hd"><div class="sec-title">Cara Belajar</div></div>
 <div class="steps-list">
-    @foreach([['LANGKAH 01','🗂️','Pilih Modul','Tentukan topik isyarat yang ingin kamu pelajari.'],['LANGKAH 02','🎬','Pelajari Gerakan','Amati animasi gerakan isyarat di setiap kartu.'],['LANGKAH 03','🏆','Ikut Kuis','Uji kemampuanmu dengan soal kuis berlevel.']] as $i=>[$num,$em,$t,$d])
+    @foreach([['LANGKAH 01','🗂️','Pilih Modul','Tentukan topik isyarat yang ingin kamu pelajari.'],['LANGKAH 02','🎬','Pelajari Gerakan','Amati animasi gerakan isyarat di setiap konten.'],['LANGKAH 03','🏆','Ikut Kuis','Uji kemampuanmu dengan soal kuis bertingkat.']] as $i=>[$num,$em,$t,$d])
     <div class="step-item fu d{{ $i+2 }}">
         <div style="font-size:24px;flex-shrink:0">{{ $em }}</div>
         <div>

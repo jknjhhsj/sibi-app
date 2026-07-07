@@ -67,14 +67,16 @@
     border:1px solid var(--border);
     border-radius:var(--r-lg);
     overflow:hidden;
-    aspect-ratio:16/10;
+    aspect-ratio:3/4;
     display:flex;align-items:center;justify-content:center;
     box-shadow:var(--shadow);
     position:relative;
 }
-.card-video img{
+.card-video img,
+.card-video video{
     width:100%;height:100%;
-    object-fit:contain;
+    object-fit:cover;
+    object-position:top;
 }
 .card-video-ph{
     display:flex;flex-direction:column;align-items:center;gap:10px;
@@ -149,6 +151,10 @@
     .mod-topbar{padding:10px 14px}
     .mod-topbar-title{font-size:15px}
 }
+
+@media(min-width:768px){
+    .card-viewer{ max-width:500px; }
+}
 </style>
 <?php $__env->stopPush(); ?>
 
@@ -187,10 +193,11 @@
         <?php if($firstGif): ?>
             <?php if(in_array($firstExt, ['mp4','webm','mov'])): ?>
                 <video src="<?php echo e(asset($firstGif)); ?>" autoplay loop muted playsinline id="card-img"
-                       style="width:100%;height:100%;object-fit:contain"
+                       style="width:100%;height:100%;object-fit:cover;object-position:top"
                        onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>
             <?php else: ?>
                 <img src="<?php echo e(asset($firstGif)); ?>" alt="<?php echo e($konten->first()->judul); ?>" id="card-img"
+                     style="width:100%;height:100%;object-fit:cover;object-position:top"
                      onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">
             <?php endif; ?>
         <?php else: ?>
@@ -278,9 +285,9 @@ function goTo(idx) {
         if (c.gif) {
             const isVideo = ['mp4','webm','mov'].includes(c.ext);
             if (isVideo) {
-                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:contain" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
+                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:cover;object-position:top" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
             } else {
-                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
+                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" style="width:100%;height:100%;object-fit:cover;object-position:top" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
             }
         } else {
             video.innerHTML = '<div class="card-video-ph"><span>🎬</span><p>Video belum tersedia</p></div>';
@@ -316,10 +323,27 @@ function updateUI() {
     const bp = document.getElementById('btn-prev');
     const bn = document.getElementById('btn-next');
     bp.disabled = cur === 0;
-    bn.disabled = cur === TOTAL - 1;
-    bn.innerHTML = cur === TOTAL - 1
-        ? '<i class="fas fa-check" style="font-size:11px"></i> Selesai!'
-        : 'Selanjutnya <i class="fas fa-chevron-right" style="font-size:11px"></i>';
+
+    if (cur === TOTAL - 1) {
+        bn.disabled = false;
+        bn.innerHTML = '<i class="fas fa-check" style="font-size:11px"></i> Selesai!';
+        <?php
+        $modulUrutan = ['angka','keluarga','benda','sapaan'];
+        $idxKategori = array_search($kategori, $modulUrutan);
+        $nextKategori = ($idxKategori !== false && $idxKategori < count($modulUrutan)-1)
+            ? $modulUrutan[$idxKategori + 1]
+            : null;
+        ?>
+        <?php if($nextKategori): ?>
+        bn.onclick = function() { window.location.href = '<?php echo e(route("modul.show", $nextKategori)); ?>'; };
+        <?php else: ?>
+        bn.onclick = function() { window.location.href = '<?php echo e(route("kuis.index")); ?>'; };
+        <?php endif; ?>
+    } else {
+        bn.disabled = false;
+        bn.innerHTML = 'Selanjutnya <i class="fas fa-chevron-right" style="font-size:11px"></i>';
+        bn.onclick = function() { goSlide(1); };
+    }
 }
 
 document.addEventListener('keydown', e => {
@@ -336,5 +360,4 @@ document.addEventListener('touchend', e => {
 </script>
 
 <?php $__env->stopSection(); ?>
-
 <?php echo $__env->make('layouts.siswa', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\final\resources\views/frontend/modul.blade.php ENDPATH**/ ?>

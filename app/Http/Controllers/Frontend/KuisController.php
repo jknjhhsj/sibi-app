@@ -18,9 +18,11 @@ class KuisController extends Controller
 
     public function soal(int $level)
     {
-        if ($level < 1 || $level > 5) abort(404);
+        if ($level < 1 || $level > 3) abort(404);
 
-        $soals = SoalKuis::where('level', $level)->get();
+        // inRandomOrder() -> soal diacak tiap kali diklik, walau dibuka berkali-kali
+        // hasilnya akan selalu berbeda urutan & kombinasinya (kalau soal di bank cukup banyak).
+        $soals = SoalKuis::where('level', $level)->inRandomOrder()->get();
 
         return response()->json($soals->map(fn($s) => [
             'id'            => $s->id,
@@ -36,14 +38,13 @@ class KuisController extends Controller
 
     public function simpan(Request $request)
     {
-        // Support JSON body dari fetch() di blade
         $data = $request->json()->all() ?: $request->all();
 
         $level     = (int) ($data['level']      ?? 0);
         $benar     = (int) ($data['benar']       ?? 0);
         $totalSoal = (int) ($data['total_soal']  ?? 1);
 
-        if ($level < 1 || $level > 5 || $totalSoal < 1) {
+        if ($level < 1 || $level > 3 || $totalSoal < 1) {
             return response()->json(['error' => 'Data tidak valid.'], 422);
         }
 
@@ -57,10 +58,13 @@ class KuisController extends Controller
                 'benar'      => $benar,
                 'total_soal' => $totalSoal,
             ]);
+
+            $labelTingkat = ['Mudah', 'Sedang', 'Susah'][$level - 1] ?? $level;
+
             ActivityLog::create([
                 'user_id'    => Auth::id(),
                 'tipe'       => 'kuis',
-                'deskripsi'  => 'Menyelesaikan Kuis Level '.$level.' dengan skor '.$skor.'%',
+                'deskripsi'  => 'Menyelesaikan Kuis Tingkat '.$labelTingkat.' dengan skor '.$skor.'%',
             ]);
         }
 
