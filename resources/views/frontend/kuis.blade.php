@@ -3,7 +3,7 @@
 
 @push('styles')
 <style>
-.main-content{ max-width:100% !important; padding:16px 20px !important; }
+.main-content{ max-width:100% !important; padding:12px 16px !important; }
 
 .screen{display:none}
 .screen.active{display:block}
@@ -11,38 +11,38 @@
 /* ══ HERO ══ */
 .kuis-hero{
     background:linear-gradient(135deg,#7D4F00,#D68910);
-    border-radius:var(--r-lg);padding:20px 24px;
-    position:relative;overflow:hidden;margin-bottom:16px;
+    border-radius:var(--r-lg);padding:18px 20px;
+    position:relative;overflow:hidden;margin-bottom:14px;
 }
 .kuis-hero::before{
-    content:'🏆';position:absolute;right:24px;top:50%;transform:translateY(-50%);
-    font-size:60px;opacity:.09;pointer-events:none;line-height:1;
+    content:'🏆';position:absolute;right:20px;top:50%;transform:translateY(-50%);
+    font-size:52px;opacity:.09;pointer-events:none;line-height:1;
 }
 .kuis-hero-pill{
     display:inline-flex;align-items:center;gap:6px;
     background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
-    border-radius:99px;padding:3px 10px;font-size:11px;font-weight:600;
-    color:rgba(255,255,255,.9);margin-bottom:8px;
+    border-radius:99px;padding:3px 10px;font-size:10px;font-weight:600;
+    color:rgba(255,255,255,.9);margin-bottom:7px;
 }
-.kuis-hero h2{font-family:'Outfit',sans-serif;color:#fff;font-size:20px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px}
-.kuis-hero p{color:rgba(255,255,255,.7);font-size:12px;line-height:1.5}
+.kuis-hero h2{font-family:'Outfit',sans-serif;color:#fff;font-size:18px;font-weight:800;letter-spacing:-.3px;margin-bottom:4px}
+.kuis-hero p{color:rgba(255,255,255,.7);font-size:11px;line-height:1.5}
 
 /* ══ LEVEL GRID ══ */
-.level-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.level-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .level-card{
     background:var(--surface);border:1px solid var(--border);
-    border-radius:var(--r-lg);padding:20px 14px;
+    border-radius:var(--r-lg);padding:16px 8px;
     cursor:pointer;text-align:center;transition:all .18s;
     position:relative;overflow:hidden;
 }
 .level-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-.level-emoji{font-size:36px;margin-bottom:8px;line-height:1}
-.level-name{font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:4px}
-.level-cnt{font-size:12px;color:var(--text3);margin-top:2px;font-weight:500;margin-bottom:12px}
+.level-emoji{font-size:28px;margin-bottom:6px;line-height:1}
+.level-name{font-family:'Outfit',sans-serif;font-size:13px;font-weight:800;color:var(--text);margin-bottom:3px}
+.level-cnt{font-size:10px;color:var(--text3);margin-top:1px;font-weight:500;margin-bottom:10px}
 .level-go{
-    display:flex;align-items:center;justify-content:center;gap:5px;
-    padding:9px 10px;border-radius:99px;
-    font-size:12px;font-weight:700;color:#fff;
+    display:flex;align-items:center;justify-content:center;gap:4px;
+    padding:8px 6px;border-radius:99px;
+    font-size:11px;font-weight:700;color:#fff;
     border:none;cursor:pointer;width:100%;
     transition:all .15s;font-family:'Outfit',sans-serif;
 }
@@ -51,27 +51,27 @@
 .quiz-page{max-width:860px;margin:0 auto}
 
 .quiz-topbar{
-    border-radius:var(--r-lg);padding:10px 14px;
-    margin-bottom:12px;
-    display:flex;align-items:center;gap:10px;
-    position:relative;overflow:hidden;
+    border-radius:var(--r-lg);padding:9px 12px;
+    margin-bottom:10px;
+    display:flex;align-items:center;gap:8px;
+    position:relative;overflow:hidden;flex-wrap:wrap;
 }
 .quiz-topbar-back{
     background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);
-    border-radius:var(--r-sm);padding:6px 11px;
-    color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:12px;
-    cursor:pointer;display:flex;align-items:center;gap:5px;flex-shrink:0;
+    border-radius:var(--r-sm);padding:6px 10px;
+    color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:11px;
+    cursor:pointer;display:flex;align-items:center;gap:4px;flex-shrink:0;
 }
 .quiz-topbar-back:hover{background:rgba(255,255,255,.25)}
-.quiz-topbar-title{font-family:'Outfit',sans-serif;color:#fff;font-size:13px;font-weight:700;flex:1}
-.quiz-prog-wrap{height:3px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden;margin-top:4px;max-width:180px}
+.quiz-topbar-title{font-family:'Outfit',sans-serif;color:#fff;font-size:12px;font-weight:700;flex:1;min-width:80px}
+.quiz-prog-wrap{height:3px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden;margin-top:4px;max-width:160px}
 .quiz-prog-fill{height:100%;border-radius:99px;background:rgba(255,255,255,.9);transition:width .5s ease}
 .quiz-topbar-score{
     background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
-    border-radius:var(--r-sm);padding:5px 13px;text-align:center;flex-shrink:0;
+    border-radius:var(--r-sm);padding:4px 12px;text-align:center;flex-shrink:0;
 }
-.quiz-topbar-score-lbl{font-size:8px;color:rgba(255,255,255,.65);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.quiz-topbar-score-num{font-family:'Outfit',sans-serif;color:#fff;font-size:18px;font-weight:800;line-height:1}
+.quiz-topbar-score-lbl{font-size:7px;color:rgba(255,255,255,.65);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.quiz-topbar-score-num{font-family:'Outfit',sans-serif;color:#fff;font-size:16px;font-weight:800;line-height:1}
 
 /* ══ QUIZ LAYOUT ══ */
 .quiz-wrap{display:grid;grid-template-columns:1fr 240px;gap:12px;align-items:start}
@@ -79,58 +79,55 @@
 .q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
 
 .q-gif{
-    background:var(--bg);padding:12px;text-align:center;
-    max-height:190px;min-height:100px;
+    background:var(--bg);padding:10px;text-align:center;
+    height:min(26vh,190px);min-height:90px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     border-bottom:1px solid var(--border);overflow:hidden;
 }
-.q-gif img,.q-gif video{max-height:160px;max-width:100%;border-radius:var(--r);object-fit:contain}
-.q-gif-ph{font-size:28px;opacity:.28;margin-bottom:6px}
+.q-gif img,.q-gif video{max-height:100%;max-width:100%;height:100%;border-radius:var(--r);object-fit:contain}
+.q-gif-ph{font-size:26px;opacity:.28;margin-bottom:5px}
 
 .q-text{
-    font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;
-    color:var(--text);padding:12px 14px;border-bottom:1px solid var(--border);line-height:1.35;
+    font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
+    color:var(--text);padding:10px 12px;border-bottom:1px solid var(--border);line-height:1.35;
+    overflow-wrap:break-word;
 }
 
 .opt-list{
-    padding:10px 12px;
-    display:flex;flex-direction:column;gap:7px;
-    max-height:220px;overflow-y:auto;
-    scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+    padding:8px 10px;
+    display:flex;flex-direction:column;gap:6px;
 }
-.opt-list::-webkit-scrollbar{width:4px}
-.opt-list::-webkit-scrollbar-track{background:transparent}
-.opt-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px}
 
 .opt-btn{
-    display:flex;align-items:center;gap:10px;
-    padding:10px 12px;border-radius:var(--r);width:100%;text-align:left;
+    display:flex;align-items:center;gap:8px;
+    padding:10px 10px;border-radius:var(--r);width:100%;text-align:left;
     background:var(--bg);border:1.5px solid var(--border);
     cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;
-    flex-shrink:0;
+    flex-shrink:0;min-height:44px;
 }
-.opt-btn:hover:not(:disabled){border-color:var(--accent);background:var(--accent-light);transform:translateX(3px)}
+.opt-btn:hover:not(:disabled){border-color:var(--accent);background:var(--accent-light)}
 .opt-btn:disabled{cursor:not-allowed}
 .opt-btn.correct{border-color:var(--accent)!important;background:var(--accent-light)!important}
 .opt-btn.wrong{border-color:var(--red)!important;background:var(--red-light)!important}
 .opt-lbl{
-    width:28px;height:28px;border-radius:7px;
+    width:26px;height:26px;border-radius:7px;
     display:flex;align-items:center;justify-content:center;
-    font-family:'Outfit',sans-serif;font-size:12px;font-weight:700;
+    font-family:'Outfit',sans-serif;font-size:11px;font-weight:700;
     flex-shrink:0;background:var(--border);color:var(--text2);transition:all .15s;
 }
 .opt-btn.correct .opt-lbl{background:var(--accent);color:#fff}
 .opt-btn.wrong .opt-lbl{background:var(--red);color:#fff}
-.opt-text{font-weight:600;font-size:13px;color:var(--text);flex:1}
-.opt-ico{font-size:16px;flex-shrink:0}
+.opt-text{font-weight:600;font-size:13px;color:var(--text);flex:1;overflow-wrap:break-word;word-break:break-word;line-height:1.3}
+.opt-ico{font-size:15px;flex-shrink:0}
 
 .feedback-box{
-    display:flex;align-items:center;gap:10px;
-    padding:10px 12px;border-radius:var(--r);margin:0 12px 10px;
+    display:flex;align-items:center;gap:9px;
+    padding:9px 10px;border-radius:var(--r);margin:0 10px 8px;
     animation:fbIn .2s ease both;
 }
 .feedback-box.correct{background:var(--accent-light);border:1px solid var(--accent-light2)}
 .feedback-box.wrong{background:var(--red-light);border:1px solid rgba(176,58,46,.15)}
+.feedback-box > div{overflow-wrap:break-word;min-width:0}
 @keyframes fbIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
 .quiz-sidebar{display:flex;flex-direction:column;gap:10px;position:sticky;top:12px}
@@ -149,15 +146,15 @@
 
 /* ══ RESULT ══ */
 .result-wrap{max-width:480px;margin:0 auto;padding:12px 0;text-align:center}
-.result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:32px 28px;box-shadow:var(--shadow-lg)}
-.result-icon{font-size:48px;margin-bottom:10px;animation:popIn .4s cubic-bezier(.34,1.4,.64,1) both}
+.result-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:28px 20px;box-shadow:var(--shadow-lg)}
+.result-icon{font-size:44px;margin-bottom:8px;animation:popIn .4s cubic-bezier(.34,1.4,.64,1) both}
 @keyframes popIn{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
-.result-title{font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;color:var(--text);margin-bottom:5px}
-.result-stars{font-size:20px;letter-spacing:3px;margin-bottom:5px}
-.result-pct{font-family:'Outfit',sans-serif;font-size:60px;font-weight:800;color:var(--accent);line-height:1;margin:8px 0 5px}
-.result-det{font-size:12px;color:var(--text2);margin-bottom:18px}
+.result-title{font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:5px}
+.result-stars{font-size:18px;letter-spacing:3px;margin-bottom:5px}
+.result-pct{font-family:'Outfit',sans-serif;font-size:52px;font-weight:800;color:var(--accent);line-height:1;margin:8px 0 5px}
+.result-det{font-size:12px;color:var(--text2);margin-bottom:16px}
 .result-btns{display:flex;flex-direction:column;gap:8px}
-.final-card{background:linear-gradient(135deg,var(--accent-light),var(--accent-light2));border:1px solid var(--accent-light2);border-radius:var(--r-xl);padding:32px 28px;text-align:center}
+.final-card{background:linear-gradient(135deg,var(--accent-light),var(--accent-light2));border:1px solid var(--accent-light2);border-radius:var(--r-xl);padding:28px 20px;text-align:center}
 @keyframes confFall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(280px) rotate(720deg);opacity:0}}
 .conf{position:fixed;top:0;pointer-events:none;animation:confFall 2.2s ease forwards;z-index:9999}
 
@@ -168,12 +165,21 @@
 }
 @media(max-width:600px){
     .level-grid{grid-template-columns:1fr}
-    .main-content{padding:10px !important}
+    .main-content{padding:8px 10px !important}
+    .q-gif{height:min(22vh,150px)}
 }
 @media(max-width:460px){
-    .opt-text{font-size:12px}
-    .opt-list{max-height:none;overflow-y:visible}
-    #sc-qz{overflow-y:auto}
+    .opt-text{font-size:13px}
+    .q-text{font-size:13px}
+    .quiz-topbar-title{font-size:11px}
+    .opt-btn{padding:9px 8px}
+    .opt-lbl{width:24px;height:24px;font-size:10px}
+}
+@media(max-height:650px){
+    .q-gif{height:min(18vh,120px)}
+    .kuis-hero{padding:12px 16px;margin-bottom:10px}
+    .level-card{padding:12px 6px}
+    .level-emoji{font-size:22px;margin-bottom:4px}
 }
 </style>
 @endpush
@@ -196,9 +202,9 @@
     <div class="level-grid">
         @php
         $lvlData = [
-            [1, '🟢', 'Mudah',  '5 soal (acak)', '#1B6B45'],
-            [2, '🟡', 'Sedang', '5 soal (acak)', '#D68910'],
-            [3, '🔴', 'Susah',  '5 soal (acak)', '#B03A2E'],
+            [1, '🟢', 'Mudah',  'Soal acak', '#1B6B45'],
+            [2, '🟡', 'Sedang', 'Soal acak', '#D68910'],
+            [3, '🔴', 'Susah',  'Soal acak', '#B03A2E'],
         ];
         @endphp
         @foreach($lvlData as [$n, $em, $lb, $cnt, $col])
@@ -227,7 +233,7 @@
                 <div class="quiz-prog-fill" id="q-pg" style="width:20%"></div>
             </div>
         </div>
-        <div style="color:rgba(255,255,255,.75);font-size:11px;font-weight:600" id="q-cnt">Soal 1 dari 5</div>
+        <div style="color:rgba(255,255,255,.75);font-size:11px;font-weight:600" id="q-cnt">Soal 1</div>
         <div class="quiz-topbar-score">
             <div class="quiz-topbar-score-lbl">Skor</div>
             <div class="quiz-topbar-score-num" id="score">0</div>
@@ -258,7 +264,7 @@
                 <div class="q-prog-bar-wrap">
                     <div class="q-prog-bar-fill" id="q-prog2" style="width:20%;background:var(--accent)"></div>
                 </div>
-                <div class="q-prog-frac" id="q-cnt2">1 / 5</div>
+                <div class="q-prog-frac" id="q-cnt2">1 / -</div>
             </div>
             <div class="q-tip-card">
                 <div class="q-tip-lbl">💡 Tips</div>
@@ -351,17 +357,14 @@ function renderQ() {
     document.getElementById('q-txt').textContent=q.pertanyaan;
     document.getElementById('q-fb').style.display='none';
 
-    // Perbaikan: deteksi apakah file video (mp4/webm/mov) atau gambar (gif/png/jpg),
-    // lalu render tag yang sesuai. Sebelumnya semua dipaksa pakai <img> sehingga
-    // video mp4 tidak pernah bisa tampil.
     const gif=document.getElementById('gif-box');
     if (q.gif_soal) {
         const src = q.gif_soal.startsWith('/') ? q.gif_soal : '/' + q.gif_soal;
         const ext = q.gif_soal.split('.').pop().toLowerCase();
         if (['mp4','webm','mov'].includes(ext)) {
-            gif.innerHTML = `<video src="${src}" autoplay loop muted playsinline style="max-height:160px;max-width:100%;border-radius:var(--r);object-fit:contain" onerror="this.parentElement.innerHTML='<div class=q-gif-ph>🎬</div><div style=font-size:12px;font-weight:600;color:var(--text3)>Video tidak tersedia</div>'"></video>`;
+            gif.innerHTML = `<video src="${src}" autoplay loop muted playsinline style="max-height:100%;max-width:100%;height:100%;border-radius:var(--r);object-fit:contain" onerror="this.parentElement.innerHTML='<div class=q-gif-ph>🎬</div><div style=font-size:12px;font-weight:600;color:var(--text3)>Video tidak tersedia</div>'"></video>`;
         } else {
-            gif.innerHTML = `<img src="${src}" style="max-height:160px;max-width:100%;border-radius:var(--r);object-fit:contain" onerror="this.parentElement.innerHTML='<div class=q-gif-ph>🎬</div><div style=font-size:12px;font-weight:600;color:var(--text3)>Video tidak tersedia</div>'">`;
+            gif.innerHTML = `<img src="${src}" style="max-height:100%;max-width:100%;height:100%;border-radius:var(--r);object-fit:contain" onerror="this.parentElement.innerHTML='<div class=q-gif-ph>🎬</div><div style=font-size:12px;font-weight:600;color:var(--text3)>Video tidak tersedia</div>'">`;
         }
     } else {
         gif.innerHTML = `<div class="q-gif-ph">🎬</div><div style="font-size:12px;font-weight:600;color:var(--text3)">Video Isyarat SIBI</div>`;

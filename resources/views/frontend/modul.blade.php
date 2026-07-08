@@ -8,7 +8,7 @@
 /* ── TOPBAR ── */
 .mod-topbar{
     display:flex;align-items:center;gap:12px;
-    padding:12px 20px;
+    padding:10px 16px;
     background:linear-gradient(135deg,{{ $config['c1'] }},{{ $config['c2'] }});
     position:relative;overflow:hidden;flex-shrink:0;
 }
@@ -20,55 +20,58 @@
 .mod-back{
     display:inline-flex;align-items:center;gap:6px;
     background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);
-    border-radius:var(--r-sm);padding:7px 13px;text-decoration:none;
-    color:#fff;font-size:13px;font-weight:600;flex-shrink:0;
+    border-radius:var(--r-sm);padding:6px 12px;text-decoration:none;
+    color:#fff;font-size:12px;font-weight:600;flex-shrink:0;
     transition:background .15s;position:relative;z-index:1;
 }
 .mod-back:hover{background:rgba(255,255,255,.25)}
 .mod-topbar-icon{
-    width:38px;height:38px;background:rgba(255,255,255,.18);
-    border:1.5px solid rgba(255,255,255,.25);border-radius:10px;
-    display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+    width:34px;height:34px;background:rgba(255,255,255,.18);
+    border:1.5px solid rgba(255,255,255,.25);border-radius:9px;
+    display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
     position:relative;z-index:1;
 }
 .mod-topbar-info{position:relative;z-index:1;flex:1;min-width:0}
-.mod-topbar-title{font-family:'Outfit',sans-serif;color:#fff;font-size:17px;font-weight:700;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mod-topbar-sub{color:rgba(255,255,255,.65);font-size:11px;margin-top:1px}
+.mod-topbar-title{font-family:'Outfit',sans-serif;color:#fff;font-size:15px;font-weight:700;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mod-topbar-sub{color:rgba(255,255,255,.65);font-size:10px;margin-top:1px}
 .mod-topbar-counter{
     background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);
-    border-radius:var(--r-sm);padding:7px 14px;text-align:center;
+    border-radius:var(--r-sm);padding:5px 12px;text-align:center;
     position:relative;z-index:1;flex-shrink:0;
 }
-.mod-topbar-counter-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:15px;color:#fff;line-height:1}
-.mod-topbar-counter-lbl{font-size:9px;color:rgba(255,255,255,.6);font-weight:600;margin-top:2px;text-transform:uppercase;letter-spacing:.4px}
+.mod-topbar-counter-num{font-family:'Outfit',sans-serif;font-weight:800;font-size:13px;color:#fff;line-height:1}
+.mod-topbar-counter-lbl{font-size:8px;color:rgba(255,255,255,.6);font-weight:600;margin-top:1px;text-transform:uppercase;letter-spacing:.4px}
 
 /* ── PROGRESS STRIP ── */
 .prog-strip{height:4px;background:rgba(0,0,0,.08);flex-shrink:0}
 .prog-fill{height:100%;transition:width .5s ease}
 
-/* ── MAIN LAYOUT ── */
+/* ── MAIN LAYOUT: fit satu layar HP, tidak perlu geser ── */
 .modul-page{
     display:flex;flex-direction:column;
-    min-height:calc(100vh - 56px - 70px);
+    height:calc(100dvh - 52px - 4px);
+    overflow:hidden;
 }
 
 /* ── CARD VIEWER ── */
 .card-viewer{
-    flex:1;
+    flex:1;min-height:0;
     display:flex;flex-direction:column;
     max-width:680px;width:100%;
     margin:0 auto;
-    padding:16px;
-    gap:14px;
+    padding:10px 14px;
+    gap:8px;
 }
 
-/* ── VIDEO AREA ── */
+/* ── VIDEO AREA — tinggi mengikuti tinggi layar, bukan rasio tetap ── */
 .card-video{
     background:var(--surface);
     border:1px solid var(--border);
     border-radius:var(--r-lg);
     overflow:hidden;
-    aspect-ratio:3/4;
+    flex:1 1 auto;
+    min-height:120px;
+    max-height:38vh;
     display:flex;align-items:center;justify-content:center;
     box-shadow:var(--shadow);
     position:relative;
@@ -80,34 +83,34 @@
     object-position:top;
 }
 .card-video-ph{
-    display:flex;flex-direction:column;align-items:center;gap:10px;
-    opacity:.3;padding:20px;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+    opacity:.3;padding:16px;
 }
-.card-video-ph span{font-size:52px;line-height:1}
-.card-video-ph p{font-size:13px;font-weight:600;color:var(--text3);text-align:center}
+.card-video-ph span{font-size:44px;line-height:1}
+.card-video-ph p{font-size:12px;font-weight:600;color:var(--text3);text-align:center}
 
 /* ── TEXT INFO ── */
 .card-info{
     display:grid;grid-template-columns:1fr 1fr;
-    gap:10px;
+    gap:8px;flex-shrink:0;
 }
 .card-info-cell{
     background:var(--surface);border:1px solid var(--border);
-    border-radius:var(--r);padding:14px 18px;
-    display:flex;flex-direction:column;gap:4px;
+    border-radius:var(--r);padding:10px 14px;
+    display:flex;flex-direction:column;gap:2px;
     box-shadow:var(--shadow-sm);
 }
-.card-info-lbl{font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text3)}
-.card-info-val{font-family:'Outfit',sans-serif;font-size:26px;font-weight:800;color:var(--text);line-height:1.1}
+.card-info-lbl{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--text3)}
+.card-info-val{font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--text);line-height:1.1;overflow-wrap:break-word}
 
 /* ── NAVIGATION ── */
 .card-nav{
-    display:flex;align-items:center;gap:10px;
+    display:flex;align-items:center;gap:8px;flex-shrink:0;
 }
 .nav-btn{
-    display:flex;align-items:center;justify-content:center;gap:7px;
-    padding:12px 20px;border-radius:var(--r);
-    font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    padding:10px 16px;border-radius:var(--r);
+    font-family:'Outfit',sans-serif;font-size:13px;font-weight:700;
     cursor:pointer;transition:all .15s;border:1.5px solid var(--border);
     background:var(--surface);color:var(--text2);
     flex-shrink:0;
@@ -124,15 +127,15 @@
 
 /* ── DOTS ── */
 .dots-row{
-    display:flex;flex-wrap:wrap;gap:6px;justify-content:center;
-    padding:4px 0;
+    display:flex;flex-wrap:wrap;gap:5px;justify-content:center;
+    padding:2px 0;flex-shrink:0;max-height:24px;overflow:hidden;
 }
 .dot{
-    width:8px;height:8px;border-radius:99px;border:none;
+    width:7px;height:7px;border-radius:99px;border:none;
     cursor:pointer;padding:0;transition:all .22s;
     background:var(--border2);flex-shrink:0;
 }
-.dot.active{width:22px}
+.dot.active{width:18px}
 
 /* ── SLIDE TRANSITIONS ── */
 .card-video,.card-info{transition:opacity .22s,transform .22s}
@@ -143,18 +146,43 @@
 .slide-in-l{animation:sInL .22s ease both}
 .slide-in-r{animation:sInR .22s ease both}
 
-/* ── RESPONSIVE ── */
+/* ── CTA ── */
+.card-cta{
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    padding:9px;border-radius:var(--r);text-decoration:none;
+    font-family:'Outfit',sans-serif;font-weight:700;font-size:12px;
+    flex-shrink:0;
+}
+
+/* ── RESPONSIVE: layar sempit ── */
 @media(max-width:500px){
-    .card-info{grid-template-columns:1fr 1fr}
-    .card-info-val{font-size:20px}
-    .card-viewer{padding:12px;gap:10px}
-    .nav-btn{padding:10px 14px;font-size:13px}
-    .mod-topbar{padding:10px 14px}
-    .mod-topbar-title{font-size:15px}
+    .card-info-val{font-size:17px}
+    .card-viewer{padding:8px 10px;gap:6px}
+    .nav-btn{padding:9px 12px;font-size:12px}
+    .mod-topbar{padding:8px 12px}
+    .mod-topbar-title{font-size:13px}
+    .card-video{max-height:34vh}
+}
+
+/* ── RESPONSIVE: layar pendek (HP landscape / HP kecil) ── */
+@media(max-height:700px){
+    .card-video{max-height:28vh}
+    .card-info-val{font-size:16px}
+    .card-info-cell{padding:8px 12px}
+    .card-viewer{gap:5px;padding:8px 10px}
+    .nav-btn{padding:8px 12px}
+}
+@media(max-height:600px){
+    .card-video{max-height:24vh;min-height:90px}
+    .card-video-ph span{font-size:32px}
+    .card-info-cell{padding:6px 10px}
+    .card-info-val{font-size:15px}
 }
 
 @media(min-width:768px){
     .card-viewer{ max-width:500px; }
+    .modul-page{ height:auto; min-height:calc(100vh - 56px - 4px); overflow:visible; }
+    .card-video{ max-height:none; aspect-ratio:3/4; flex:none; }
 }
 </style>
 @endpush
@@ -226,7 +254,7 @@
         @foreach($konten as $idx => $_)
         <button class="dot {{ $idx === 0 ? 'active' : '' }}"
                 onclick="goTo({{ $idx }})"
-                style="{{ $idx === 0 ? 'width:22px;background:'.$config['c1'] : '' }}">
+                style="{{ $idx === 0 ? 'width:18px;background:'.$config['c1'] : '' }}">
         </button>
         @endforeach
     </div>
@@ -242,8 +270,8 @@
     </div>
 
     {{-- CTA --}}
-    <a href="{{ route('kuis.index') }}"
-       style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--yellow-light);border:1.5px solid #FDE68A;border-radius:var(--r);text-decoration:none;font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--yellow)">
+    <a href="{{ route('kuis.index') }}" class="card-cta"
+       style="background:var(--yellow-light);border:1.5px solid #FDE68A;color:var(--yellow)">
         🏆 Selesai? Lanjut ke Kuis!
     </a>
 
@@ -282,7 +310,6 @@ function goTo(idx) {
 
     setTimeout(() => {
         const c = CARDS[idx];
-        // Update video
         if (c.gif) {
             const isVideo = ['mp4','webm','mov'].includes(c.ext);
             if (isVideo) {
@@ -293,7 +320,6 @@ function goTo(idx) {
         } else {
             video.innerHTML = '<div class="card-video-ph"><span>🎬</span><p>Video belum tersedia</p></div>';
         }
-        // Update text
         document.getElementById('txt-sibi').textContent = c.sibi;
         document.getElementById('txt-bel').textContent  = c.bel;
 
@@ -317,7 +343,7 @@ function updateUI() {
     document.querySelectorAll('.dot').forEach((d,i) => {
         const act = i === cur;
         d.classList.toggle('active', act);
-        d.style.width = act ? '22px' : '8px';
+        d.style.width = act ? '18px' : '7px';
         d.style.background = act ? C1 : '';
     });
 
