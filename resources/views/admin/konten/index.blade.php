@@ -69,7 +69,7 @@
     <div style="overflow-x:auto">
         <table class="tbl" style="min-width:600px">
             <thead><tr>
-                @foreach(['Kata / Judul','Kategori','Teks SIBI','Belinyu','No','Aksi'] as $h)
+                @foreach(['Kata / Judul','Kategori','Teks SIBI','Belinyu','Aksi'] as $h)
                 <th>{{ $h }}</th>
                 @endforeach
             </tr></thead>
@@ -99,11 +99,6 @@
                     <span style="font-weight:700;color:var(--accent);font-size:14px">{{ $k->teks_sibi }}</span>
                 </td>
                 <td style="color:var(--text2);font-size:13px">{{ $k->teks_belinyu ?? '—' }}</td>
-                <td style="text-align:center">
-                    <span style="width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;background:var(--bg);color:var(--text2);font-family:'Outfit',sans-serif;font-weight:800;border-radius:8px;font-size:13px;border:1px solid var(--border)">
-                        {{ $k->urutan }}
-                    </span>
-                </td>
                 <td>
                     <div style="display:flex;align-items:center;gap:8px">
                         <a href="{{ route('admin.konten.edit', $k) }}" class="btn-s" style="font-size:12px;padding:6px 12px">
@@ -121,7 +116,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="6" style="padding:60px;text-align:center">
+                <td colspan="5" style="padding:60px;text-align:center">
                     <div style="width:60px;height:60px;background:var(--bg);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:24px">🤟</div>
                     <div style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:5px">Belum Ada Konten</div>
                     <div style="font-size:13px;color:var(--text3);margin-bottom:16px">Tambahkan konten belajar pertama untuk modul ini.</div>
@@ -134,6 +129,30 @@
             </tbody>
         </table>
     </div>
+
+    @if($konten->hasPages())
+    <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        @if($konten->onFirstPage())
+            <span style="padding:7px 14px;border-radius:8px;background:var(--bg);color:var(--text3);font-size:13px;border:1px solid var(--border)">← Prev</span>
+        @else
+            <a href="{{ $konten->previousPageUrl() }}" style="padding:7px 14px;border-radius:8px;background:var(--surface);color:var(--accent);font-size:13px;font-weight:600;border:1px solid var(--border);text-decoration:none">← Prev</a>
+        @endif
+
+        @foreach($konten->getUrlRange(1, $konten->lastPage()) as $page => $url)
+            @if($page == $konten->currentPage())
+                <span style="padding:7px 12px;border-radius:8px;background:var(--accent);color:#fff;font-size:13px;font-weight:700">{{ $page }}</span>
+            @else
+                <a href="{{ $url }}" style="padding:7px 12px;border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;border:1px solid var(--border);text-decoration:none">{{ $page }}</a>
+            @endif
+        @endforeach
+
+        @if($konten->hasMorePages())
+            <a href="{{ $konten->nextPageUrl() }}" style="padding:7px 14px;border-radius:8px;background:var(--surface);color:var(--accent);font-size:13px;font-weight:600;border:1px solid var(--border);text-decoration:none">Next →</a>
+        @else
+            <span style="padding:7px 14px;border-radius:8px;background:var(--bg);color:var(--text3);font-size:13px;border:1px solid var(--border)">Next →</span>
+        @endif
+    </div>
+    @endif
 </div>
 
 @endsection
