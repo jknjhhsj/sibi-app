@@ -31,16 +31,17 @@
 
 <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px">
     <?php $__currentLoopData = [
-        '' =>      ['Semua Tingkat', '📊', 'var(--text2)'],
-        'mudah' => ['Mudah (Lv.1–2)', '🟢', '#1B6B45'],
-        'susah' => ['Susah (Lv.3–5)', '🔴', '#B03A2E'],
+        '' =>       ['Semua Tingkat', '📊', 'var(--text2)'],
+        'mudah' =>  ['🟢 Mudah',      '', '#1B6B45'],
+        'sedang' => ['🟡 Sedang',     '', '#D68910'],
+        'susah' =>  ['🔴 Susah',      '', '#B03A2E'],
     ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $t => [$lbl, $em, $col]): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
     <a href="<?php echo e(route('admin.kuis.index', array_filter(['kategori'=>request('kategori'), 'tingkat'=>$t]))); ?>"
        style="font-size:12px;padding:7px 14px;border-radius:99px;font-weight:700;text-decoration:none;
               border:1.5px solid <?php echo e(request('tingkat','') === $t ? $col : 'var(--border)'); ?>;
               background:<?php echo e(request('tingkat','') === $t ? $col.'1A' : 'var(--surface)'); ?>;
               color:<?php echo e(request('tingkat','') === $t ? $col : 'var(--text2)'); ?>">
-        <?php echo e($em); ?> <?php echo e($lbl); ?>
+        <?php echo e($lbl); ?>
 
     </a>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -56,18 +57,12 @@
             <div>
                 <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--text)">
                     Bank Soal Kuis
-                    <?php if(request('kategori')): ?>
-                        — <?php echo e(ucfirst(request('kategori'))); ?>
-
-                    <?php endif; ?>
-                    <?php if(request('tingkat')): ?>
-                        — <?php echo e(request('tingkat') === 'mudah' ? 'Mudah' : 'Susah'); ?>
-
-                    <?php endif; ?>
+                    <?php if(request('kategori')): ?> — <?php echo e(ucfirst(request('kategori'))); ?> <?php endif; ?>
+                    <?php if(request('tingkat')): ?> — <?php echo e(ucfirst(request('tingkat'))); ?> <?php endif; ?>
                 </div>
                 <div style="font-size:11px;color:var(--text3)">
                     <?php echo e(method_exists($soal,'total') ? $soal->total() : $soal->count()); ?> total soal —
-                    diacak otomatis saat siswa mengerjakan kuis
+                    diacak otomatis tiap kali siswa mengerjakan kuis
                 </div>
             </div>
         </div>
@@ -91,48 +86,33 @@
             ];
             [$cbg, $ccol, $cem] = $catCfg[$s->kategori] ?? ['#F3F4F6', '#6B7280', '❓'];
 
-            $levelCfg = [
+            $tingkatCfg = [
                 1 => ['Mudah', '#E6F4ED', '#1B6B45'],
-                2 => ['Mudah', '#E6F4ED', '#1B6B45'],
-                3 => ['Sedang', '#FEF9E7', '#D68910'],
-                4 => ['Susah', '#FDEDEA', '#B03A2E'],
-                5 => ['Susah', '#FDEDEA', '#B03A2E'],
+                2 => ['Sedang', '#FEF9E7', '#D68910'],
+                3 => ['Susah', '#FDEDEA', '#B03A2E'],
             ];
-            [$tlabel, $tbg, $tcol] = $levelCfg[$s->level] ?? ['—', '#F3F4F6', '#6B7280'];
+            [$tlabel, $tbg, $tcol] = $tingkatCfg[$s->level] ?? ['—', '#F3F4F6', '#6B7280'];
             ?>
             <tr>
                 <td>
-                    <span class="badge" style="background:<?php echo e($tbg); ?>;color:<?php echo e($tcol); ?>">
-                        Lv.<?php echo e($s->level); ?> · <?php echo e($tlabel); ?>
-
-                    </span>
+                    <span class="badge" style="background:<?php echo e($tbg); ?>;color:<?php echo e($tcol); ?>"><?php echo e($tlabel); ?></span>
                 </td>
                 <td>
-                    <span class="badge" style="background:<?php echo e($cbg); ?>;color:<?php echo e($ccol); ?>">
-                        <?php echo e($cem); ?> <?php echo e(ucfirst($s->kategori)); ?>
-
-                    </span>
+                    <span class="badge" style="background:<?php echo e($cbg); ?>;color:<?php echo e($ccol); ?>"><?php echo e($cem); ?> <?php echo e(ucfirst($s->kategori)); ?></span>
                 </td>
-                <td style="font-weight:600;color:var(--text);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
-                    <?php echo e($s->pertanyaan); ?>
-
-                </td>
+                <td style="font-weight:600;color:var(--text);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><?php echo e($s->pertanyaan); ?></td>
                 <td style="color:var(--text2);font-size:12px;max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><?php echo e($s->pilihan_a); ?></td>
                 <td style="color:var(--text2);font-size:12px;max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><?php echo e($s->pilihan_b); ?></td>
                 <td style="color:var(--text2);font-size:12px;max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><?php echo e($s->pilihan_c); ?></td>
                 <td>
-                    <span class="badge" style="background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-light2);font-size:13px;font-weight:800">
-                        <?php echo e(strtoupper($s->jawaban_benar)); ?>
-
-                    </span>
+                    <span class="badge" style="background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-light2);font-size:13px;font-weight:800"><?php echo e(strtoupper($s->jawaban_benar)); ?></span>
                 </td>
                 <td>
                     <div style="display:flex;align-items:center;gap:8px">
                         <a href="<?php echo e(route('admin.kuis.edit', $s)); ?>" class="btn-s" style="font-size:12px;padding:6px 12px">
                             <i class="fas fa-edit"></i> Edit
                         </a>
-                        <form method="POST" action="<?php echo e(route('admin.kuis.destroy', $s)); ?>"
-                              onsubmit="return confirm('Hapus soal ini?')">
+                        <form method="POST" action="<?php echo e(route('admin.kuis.destroy', $s)); ?>" onsubmit="return confirm('Hapus soal ini?')">
                             <?php echo csrf_field(); ?> <?php echo method_field('DELETE'); ?>
                             <button type="submit" class="btn-s" style="font-size:12px;padding:6px 10px;color:var(--red);border-color:rgba(220,38,38,.25);background:var(--red-light)">
                                 <i class="fas fa-trash"></i>
@@ -164,7 +144,6 @@
         <?php else: ?>
             <a href="<?php echo e($soal->previousPageUrl()); ?>" style="padding:7px 14px;border-radius:8px;background:var(--surface);color:var(--accent);font-size:13px;font-weight:600;border:1px solid var(--border);text-decoration:none">← Prev</a>
         <?php endif; ?>
-
         <?php $__currentLoopData = $soal->getUrlRange(1, $soal->lastPage()); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $page => $url): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <?php if($page == $soal->currentPage()): ?>
                 <span style="padding:7px 12px;border-radius:8px;background:var(--accent);color:#fff;font-size:13px;font-weight:700"><?php echo e($page); ?></span>
@@ -172,7 +151,6 @@
                 <a href="<?php echo e($url); ?>" style="padding:7px 12px;border-radius:8px;background:var(--surface);color:var(--text);font-size:13px;border:1px solid var(--border);text-decoration:none"><?php echo e($page); ?></a>
             <?php endif; ?>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
         <?php if($soal->hasMorePages()): ?>
             <a href="<?php echo e($soal->nextPageUrl()); ?>" style="padding:7px 14px;border-radius:8px;background:var(--surface);color:var(--accent);font-size:13px;font-weight:600;border:1px solid var(--border);text-decoration:none">Next →</a>
         <?php else: ?>

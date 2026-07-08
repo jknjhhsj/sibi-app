@@ -40,8 +40,8 @@ class KuisController extends Controller
             'pertanyaan'    => 'required|string|max:500',
             'pilihan_a'     => 'required|string|max:200',
             'pilihan_b'     => 'required|string|max:200',
-            'pilihan_c'     => 'nullable|string|max:200',
-            'pilihan_d'     => 'nullable|string|max:200',
+            'pilihan_c'     => 'required|string|max:200',
+            'pilihan_d'     => 'required|string|max:200',
             'jawaban_benar' => 'required|in:a,b,c,d',
         ], [
             'gif_soal.required' => 'Video/GIF soal wajib dipilih supaya jelas untuk siswa tunarungu.',

@@ -143,7 +143,7 @@ html,body{height:100%;font-family:'Plus Jakarta Sans',sans-serif;background:#F0F
       <div class="ilus-desc">Platform SIBI untuk anak tunarungu. Interaktif, menyenangkan, dan gratis.</div>
     </div>
     <div class="chips">
-      <div class="chip">📖 56 Kartu Isyarat</div>
+      <div class="chip">📖 Konten Isyarat SIBI</div>
       <div class="chip">🏆 Kuis 5 Level</div>
       <div class="chip">📊 Lacak Progress</div>
     </div>

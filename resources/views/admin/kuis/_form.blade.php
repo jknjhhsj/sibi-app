@@ -46,7 +46,7 @@
 
 <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:18px">
     <div style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px">
-        Pilihan Jawaban <span style="font-weight:400;text-transform:none;color:var(--text3)">— centang salah satu sebagai jawaban benar</span>
+        Pilihan Jawaban *<span style="font-weight:400;text-transform:none;color:var(--text3)"> — semua wajib diisi, centang salah satu sebagai jawaban benar</span>
     </div>
     <div style="display:flex;flex-direction:column;gap:10px">
         @foreach(['a'=>'A','b'=>'B','c'=>'C','d'=>'D'] as $k => $label)
@@ -54,13 +54,13 @@
             <input type="radio" name="jawaban_benar" value="{{ $k }}"
                 {{ old('jawaban_benar', $soal?->jawaban_benar) === $k ? 'checked' : '' }}
                 style="accent-color:var(--accent);width:18px;height:18px;flex-shrink:0"
-                {{ $k === 'a' || $k === 'b' ? 'required' : '' }}
+                required
                 onchange="highlightAnswer()">
             <span style="display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;background:var(--bg);border-radius:7px;font-size:12px;font-weight:800;flex-shrink:0">{{ $label }}</span>
             <input type="text" name="pilihan_{{ $k }}" oninput="highlightAnswer()"
                 value="{{ old('pilihan_'.$k, $soal?->{'pilihan_'.$k}) }}"
-                placeholder="Jawaban {{ $label }}...{{ in_array($k,['c','d']) ? ' (opsional)' : '' }}"
-                class="inp" style="flex:1;margin:0" {{ in_array($k, ['a','b']) ? 'required' : '' }}>
+                placeholder="Jawaban {{ $label }}..."
+                class="inp" style="flex:1;margin:0" required>
             <span id="ico-{{ $k }}" style="font-size:16px;width:20px;text-align:center;flex-shrink:0"></span>
             @error('pilihan_'.$k)<div class="ferr">{{ $message }}</div>@enderror
         </div>

@@ -27,7 +27,7 @@ class KontenController extends Controller
             'kategori'     => 'required|in:angka,keluarga,benda,sapaan',
             'judul'        => 'required|string|max:100',
             'teks_sibi'    => 'required|string|max:100',
-            'teks_belinyu' => 'nullable|string|max:100',
+            'teks_belinyu' => 'required|string|max:100',
             'media_file'   => 'required|file|mimes:gif,mp4,webm,mov|max:20480',
             'urutan'       => 'nullable|integer|min:0',
         ], [

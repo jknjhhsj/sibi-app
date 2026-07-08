@@ -103,7 +103,7 @@
             <div class="prog-bar">
                 <div class="prog-fill" style="width:<?php echo e($data['persen']); ?>%"></div>
             </div>
-            <div style="font-size:10px;color:var(--text3);margin-top:3px"><?php echo e($data['seen']); ?> / <?php echo e($data['total']); ?> kartu</div>
+            <div style="font-size:10px;color:var(--text3);margin-top:3px"><?php echo e($data['seen']); ?> / <?php echo e($data['total']); ?> konten</div>
         </div>
     </div>
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

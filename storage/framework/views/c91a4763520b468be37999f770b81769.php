@@ -168,11 +168,11 @@
     <div class="mod-topbar-icon"><?php echo e($config['emoji']); ?></div>
     <div class="mod-topbar-info">
         <div class="mod-topbar-title"><?php echo e($config['title']); ?></div>
-        <div class="mod-topbar-sub"><?php echo e($konten->count()); ?> kartu isyarat</div>
+        <div class="mod-topbar-sub"><?php echo e($konten->count()); ?> konten isyarat</div>
     </div>
     <div class="mod-topbar-counter">
         <div class="mod-topbar-counter-num" id="counter-top">1 / <?php echo e($konten->count()); ?></div>
-        <div class="mod-topbar-counter-lbl">Kartu</div>
+        <div class="mod-topbar-counter-lbl">Konten</div>
     </div>
 </div>
 

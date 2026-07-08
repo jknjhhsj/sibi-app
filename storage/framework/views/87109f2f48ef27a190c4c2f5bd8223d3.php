@@ -27,23 +27,21 @@
 .kuis-hero p{color:rgba(255,255,255,.7);font-size:12px;line-height:1.5}
 
 /* ══ LEVEL GRID ══ */
-.level-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.level-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .level-card{
     background:var(--surface);border:1px solid var(--border);
-    border-radius:var(--r-lg);padding:14px 10px;
+    border-radius:var(--r-lg);padding:20px 14px;
     cursor:pointer;text-align:center;transition:all .18s;
     position:relative;overflow:hidden;
 }
 .level-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-.level-num{font-family:'Outfit',sans-serif;font-size:30px;font-weight:900;line-height:1;margin-bottom:4px}
-.level-stars{font-size:10px;margin-bottom:4px;letter-spacing:1px}
-.level-name{font-size:12px;font-weight:700;color:var(--text)}
-.level-cnt{font-size:11px;color:var(--text3);margin-top:2px;font-weight:500}
+.level-emoji{font-size:36px;margin-bottom:8px;line-height:1}
+.level-name{font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:4px}
+.level-cnt{font-size:12px;color:var(--text3);margin-top:2px;font-weight:500;margin-bottom:12px}
 .level-go{
-    margin-top:10px;
     display:flex;align-items:center;justify-content:center;gap:5px;
-    padding:7px 10px;border-radius:99px;
-    font-size:11px;font-weight:700;color:#fff;
+    padding:9px 10px;border-radius:99px;
+    font-size:12px;font-weight:700;color:#fff;
     border:none;cursor:pointer;width:100%;
     transition:all .15s;font-family:'Outfit',sans-serif;
 }
@@ -77,17 +75,15 @@
 /* ══ QUIZ LAYOUT ══ */
 .quiz-wrap{display:grid;grid-template-columns:1fr 240px;gap:12px;align-items:start}
 
-/* Question */
 .q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
 
-/* GIF area: compact, scrollable */
 .q-gif{
     background:var(--bg);padding:12px;text-align:center;
-    max-height:160px;min-height:100px;
+    max-height:190px;min-height:100px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     border-bottom:1px solid var(--border);overflow:hidden;
 }
-.q-gif img{max-height:130px;max-width:100%;border-radius:var(--r);object-fit:contain}
+.q-gif img,.q-gif video{max-height:160px;max-width:100%;border-radius:var(--r);object-fit:contain}
 .q-gif-ph{font-size:28px;opacity:.28;margin-bottom:6px}
 
 .q-text{
@@ -95,7 +91,6 @@
     color:var(--text);padding:12px 14px;border-bottom:1px solid var(--border);line-height:1.35;
 }
 
-/* Options scrollable container */
 .opt-list{
     padding:10px 12px;
     display:flex;flex-direction:column;gap:7px;
@@ -137,7 +132,6 @@
 .feedback-box.wrong{background:var(--red-light);border:1px solid rgba(176,58,46,.15)}
 @keyframes fbIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 
-/* Sidebar */
 .quiz-sidebar{display:flex;flex-direction:column;gap:10px;position:sticky;top:12px}
 .q-score-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;text-align:center}
 .q-score-lbl{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
@@ -171,16 +165,13 @@
     .quiz-wrap{grid-template-columns:1fr}
     .quiz-sidebar{display:none}
 }
-@media(max-width:700px){
-    .level-grid{grid-template-columns:repeat(3,1fr)}
+@media(max-width:600px){
+    .level-grid{grid-template-columns:1fr}
     .main-content{padding:10px !important}
 }
 @media(max-width:460px){
-    .level-grid{grid-template-columns:1fr 1fr}
     .opt-text{font-size:12px}
-    /* On mobile: let opts scroll freely */
     .opt-list{max-height:none;overflow-y:visible}
-    /* Make whole quiz screen scrollable on mobile */
     #sc-qz{overflow-y:auto}
 }
 </style>
@@ -193,29 +184,26 @@
     <div class="kuis-hero">
         <div class="kuis-hero-pill">🏆 Kuis Interaktif</div>
         <h2>Uji Kemampuanmu!</h2>
-        <p>Pilih level tantangan sesuai kemampuanmu — dari mudah hingga ahli.</p>
+        <p>Pilih tingkat kesulitan sesuai kemampuanmu. Soal akan selalu diacak setiap kamu mulai kuis!</p>
     </div>
 
     <div style="font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px;display:flex;align-items:center;gap:7px">
         <span style="display:inline-block;width:3px;height:14px;background:var(--accent);border-radius:99px"></span>
-        Pilih Level Tantangan
+        Pilih Tingkat Kesulitan
     </div>
 
     <div class="level-grid">
         <?php
         $lvlData = [
-            [1, '⭐',          'Mudah',     '5 soal', '#DBEAFE', '#1A4F8B'],
-            [2, '⭐⭐',        'Sedang',    '6 soal', '#EBF5FB', '#2471A3'],
-            [3, '⭐⭐⭐',      'Menantang', '7 soal', '#FEF9E7', '#D68910'],
-            [4, '⭐⭐⭐⭐',    'Sulit',     '6 soal', '#FDEDEA', '#B03A2E'],
-            [5, '⭐⭐⭐⭐⭐',  'Ahli',      '6 soal', '#F4ECF7', '#7D3C98'],
+            [1, '🟢', 'Mudah',  '5 soal (acak)', '#1B6B45'],
+            [2, '🟡', 'Sedang', '5 soal (acak)', '#D68910'],
+            [3, '🔴', 'Susah',  '5 soal (acak)', '#B03A2E'],
         ];
         ?>
-        <?php $__currentLoopData = $lvlData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as [$n, $st, $lb, $cnt, $bg, $col]): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php $__currentLoopData = $lvlData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as [$n, $em, $lb, $cnt, $col]): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div class="level-card fu d<?php echo e($n); ?>" onclick="startLevel(<?php echo e($n); ?>, '<?php echo e($col); ?>')" style="border-top:3px solid <?php echo e($col); ?>">
-            <div class="level-num" style="color:<?php echo e($col); ?>"><?php echo e($n); ?></div>
-            <div class="level-stars"><?php echo e($st); ?></div>
-            <div class="level-name"><?php echo e($lb); ?></div>
+            <div class="level-emoji"><?php echo e($em); ?></div>
+            <div class="level-name" style="color:<?php echo e($col); ?>"><?php echo e($lb); ?></div>
             <div class="level-cnt"><?php echo e($cnt); ?></div>
             <button class="level-go" style="background:<?php echo e($col); ?>">
                 Mulai <i class="fas fa-arrow-right" style="font-size:10px"></i>
@@ -285,7 +273,7 @@
     <div class="result-wrap">
         <div class="result-card">
             <div class="result-icon">🎊</div>
-            <div class="result-title" id="res-ttl">Level Selesai!</div>
+            <div class="result-title" id="res-ttl">Tingkat Selesai!</div>
             <div class="result-stars" id="res-stars"></div>
             <div class="result-pct" id="res-pct">80%</div>
             <div class="result-det" id="res-det"></div>
@@ -295,7 +283,7 @@
                     <span id="btn-nxt-txt"></span>
                 </button>
                 <button onclick="backToLevels()" class="btn" style="justify-content:center;padding:11px">
-                    ← Pilih Level Lain
+                    ← Pilih Tingkat Lain
                 </button>
             </div>
         </div>
@@ -307,7 +295,7 @@
     <div class="result-wrap">
         <div class="final-card">
             <div style="font-size:48px;margin-bottom:10px">🏅</div>
-            <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--accent);margin-bottom:5px">Semua Level Selesai!</div>
+            <div style="font-family:'Outfit',sans-serif;font-size:20px;font-weight:800;color:var(--accent);margin-bottom:5px">Semua Tingkat Selesai!</div>
             <div style="font-size:12px;color:var(--accent2);margin-bottom:12px">Luar biasa, kamu hebat sekali! 💪</div>
             <div style="font-family:'Outfit',sans-serif;font-size:60px;font-weight:800;color:var(--accent);line-height:1;margin:8px 0 5px" id="fin-pct">90%</div>
             <div style="font-size:12px;color:var(--accent2);margin-bottom:20px" id="fin-det"></div>
@@ -324,7 +312,7 @@
 <?php $__env->startPush('scripts'); ?>
 <script>
 const CSRF = document.querySelector('meta[name=csrf-token]').content;
-let lv=1, qs=[], qi=0, sc=0, ans=false, tB=0, tS=0, lvColor='#1A4F8B';
+let lv=1, qs=[], qi=0, sc=0, ans=false, tB=0, tS=0, lvColor='#1B6B45';
 
 function show(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -333,13 +321,13 @@ function show(id) {
 }
 
 const lvLabels = {
-    1:'⭐ Level 1 — Mudah',2:'⭐⭐ Level 2 — Sedang',
-    3:'⭐⭐⭐ Level 3 — Menantang',4:'⭐⭐⭐⭐ Level 4 — Sulit',
-    5:'⭐⭐⭐⭐⭐ Level 5 — Ahli'
+    1:'🟢 Tingkat Mudah',
+    2:'🟡 Tingkat Sedang',
+    3:'🔴 Tingkat Susah',
 };
 
 async function startLevel(level, color) {
-    lv=level; qi=0; sc=0; ans=false; lvColor=color||'#1A4F8B';
+    lv=level; qi=0; sc=0; ans=false; lvColor=color||'#1B6B45';
     document.getElementById('lv-name').textContent      = lvLabels[level];
     document.getElementById('score-lvl-lbl').textContent= lvLabels[level];
     document.getElementById('quiz-topbar').style.background=`linear-gradient(135deg,${lvColor},${lvColor}cc)`;
@@ -362,14 +350,24 @@ function renderQ() {
     document.getElementById('q-txt').textContent=q.pertanyaan;
     document.getElementById('q-fb').style.display='none';
 
+    // Perbaikan: deteksi apakah file video (mp4/webm/mov) atau gambar (gif/png/jpg),
+    // lalu render tag yang sesuai. Sebelumnya semua dipaksa pakai <img> sehingga
+    // video mp4 tidak pernah bisa tampil.
     const gif=document.getElementById('gif-box');
-    gif.innerHTML=q.gif_soal
-        ? `<img src="${q.gif_soal}" style="max-height:130px;max-width:100%;border-radius:var(--r);object-fit:contain" onerror="this.style.display='none'">`
-        : `<div class="q-gif-ph">🎬</div><div style="font-size:12px;font-weight:600;color:var(--text3)">Video Isyarat SIBI</div>`;
+    if (q.gif_soal) {
+        const src = q.gif_soal.startsWith('/') ? q.gif_soal : '/' + q.gif_soal;
+        const ext = q.gif_soal.split('.').pop().toLowerCase();
+        if (['mp4','webm','mov'].includes(ext)) {
+            gif.innerHTML = `<video src="${src}" autoplay loop muted playsinline style="max-height:160px;max-width:100%;border-radius:var(--r);object-fit:contain" onerror="this.parentElement.innerHTML='<div class=q-gif-ph>🎬</div><div style=font-size:12px;font-weight:600;color:var(--text3)>Video tidak tersedia</div>'"></video>`;
+        } else {
+            gif.innerHTML = `<img src="${src}" style="max-height:160px;max-width:100%;border-radius:var(--r);object-fit:contain" onerror="this.parentElement.innerHTML='<div class=q-gif-ph>🎬</div><div style=font-size:12px;font-weight:600;color:var(--text3)>Video tidak tersedia</div>'">`;
+        }
+    } else {
+        gif.innerHTML = `<div class="q-gif-ph">🎬</div><div style="font-size:12px;font-weight:600;color:var(--text3)">Video Isyarat SIBI</div>`;
+    }
 
     const opts=document.getElementById('q-opts');
     opts.innerHTML='';
-    // Support A,B,C,D options
     [['a',q.pilihan_a],['b',q.pilihan_b],['c',q.pilihan_c],['d',q.pilihan_d]].forEach(([id,txt])=>{
         if(!txt) return;
         const b=document.createElement('button');
@@ -378,7 +376,6 @@ function renderQ() {
         b.onclick=()=>doAnswer(id,q.jawaban_benar);
         opts.appendChild(b);
     });
-    // Scroll opt-list back to top on new question
     opts.scrollTop=0;
 }
 
@@ -408,21 +405,20 @@ function doAnswer(chosen,correct) {
 
 async function lvResult() {
     tB+=sc; tS+=qs.length;
-    const pct=Math.round(sc/qs.length*100);
-    document.getElementById('res-ttl').textContent=`Level ${lv} Selesai!`;
+    const pct=qs.length ? Math.round(sc/qs.length*100) : 0;
+    document.getElementById('res-ttl').textContent=`${lvLabels[lv]} Selesai!`;
     document.getElementById('res-pct').textContent=pct+'%';
     document.getElementById('res-stars').textContent=[1,2,3,4,5].map(i=>pct>=i*20?'⭐':'☆').join('');
     document.getElementById('res-det').textContent=`${sc} benar dari ${qs.length} soal`;
     const nb=document.getElementById('btn-nxt');
     const nt=document.getElementById('btn-nxt-txt');
 
-    // Simpan hasil ke server dulu
     try {
         await fetch('/kuis/simpan',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':CSRF},body:JSON.stringify({level:lv,benar:sc,total_soal:qs.length})});
     } catch(e) {}
 
-    if(lv<5){
-        nt.textContent=`Lanjut Level ${lv+1} →`;
+    if(lv<3){
+        nt.textContent=`Lanjut ${lvLabels[lv+1]} →`;
         nb.style.display='flex';
         nb.style.opacity='1';
         nb.disabled=false;
@@ -435,14 +431,14 @@ async function lvResult() {
 }
 
 function showFinal() {
-    const pct=Math.round(tB/tS*100);
+    const pct=tS ? Math.round(tB/tS*100) : 0;
     document.getElementById('fin-pct').textContent=pct+'%';
     document.getElementById('fin-det').textContent=`${tB} benar dari ${tS} soal`;
     show('sc-fin');
     for(let i=0;i<4;i++) setTimeout(confetti,i*250);
 }
 
-function nextLevel(){startLevel(lv+1,lvColor);}
+function nextLevel(){startLevel(lv+1,lv+1===2?'#D68910':'#B03A2E');}
 function backToLevels(){tB=0;tS=0;show('sc-lv');}
 function restartAll(){tB=0;tS=0;show('sc-lv');}
 
@@ -462,10 +458,7 @@ function demoQs(){return[
     {pertanyaan:'Tunjukkan angka 1!',gif_soal:'',pilihan_a:'1',pilihan_b:'2',pilihan_c:'3',pilihan_d:'4',jawaban_benar:'a'},
     {pertanyaan:'Siapa ini?',gif_soal:'',pilihan_a:'Ibu',pilihan_b:'Ayah',pilihan_c:'Kakak',pilihan_d:'Adik',jawaban_benar:'b'},
     {pertanyaan:'Nama benda ini?',gif_soal:'',pilihan_a:'Buku',pilihan_b:'Pensil',pilihan_c:'Pulpen',pilihan_d:'Penghapus',jawaban_benar:'b'},
-    {pertanyaan:'Angka berapa?',gif_soal:'',pilihan_a:'5',pilihan_b:'4',pilihan_c:'6',pilihan_d:'7',jawaban_benar:'a'},
-    {pertanyaan:'Isyarat ini artinya?',gif_soal:'',pilihan_a:'Selamat',pilihan_b:'Pagi',pilihan_c:'Malam',pilihan_d:'Siang',jawaban_benar:'a'},
 ];}
 </script>
 <?php $__env->stopPush(); ?>
-
 <?php echo $__env->make('layouts.siswa', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\final\resources\views/frontend/kuis.blade.php ENDPATH**/ ?>
