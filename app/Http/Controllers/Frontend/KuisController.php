@@ -22,7 +22,7 @@ class KuisController extends Controller
 
         // inRandomOrder() -> soal diacak tiap kali diklik, walau dibuka berkali-kali
         // hasilnya akan selalu berbeda urutan & kombinasinya (kalau soal di bank cukup banyak).
-        $soals = SoalKuis::where('level', $level)->inRandomOrder()->get();
+        $soals = SoalKuis::where('level', $level)->inRandomOrder()->limit(5)->get();
 
         return response()->json($soals->map(fn($s) => [
             'id'            => $s->id,

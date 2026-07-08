@@ -202,9 +202,9 @@
     <div class="level-grid">
         @php
         $lvlData = [
-            [1, '🟢', 'Mudah',  'Soal acak', '#1B6B45'],
-            [2, '🟡', 'Sedang', 'Soal acak', '#D68910'],
-            [3, '🔴', 'Susah',  'Soal acak', '#B03A2E'],
+            [1, '🟢', 'Mudah',  '5 soal (acak)', '#1B6B45'],
+            [2, '🟡', 'Sedang', '5 soal (acak)', '#D68910'],
+            [3, '🔴', 'Susah',  '5 soal (acak)', '#B03A2E'],
         ];
         @endphp
         @foreach($lvlData as [$n, $em, $lb, $cnt, $col])
