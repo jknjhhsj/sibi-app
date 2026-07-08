@@ -84,6 +84,10 @@
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     border-bottom:1px solid var(--border);overflow:hidden;
 }
+
+@media(min-width:768px){
+    .q-gif{ height:min(48vh,420px); }
+}
 .q-gif img,.q-gif video{max-height:100%;max-width:100%;height:100%;border-radius:var(--r);object-fit:contain}
 .q-gif-ph{font-size:26px;opacity:.28;margin-bottom:5px}
 

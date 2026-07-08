@@ -181,6 +181,8 @@
 
 @media(min-width:768px){
     .card-viewer{ max-width:480px; }
+    .modul-page{ height:auto; min-height:calc(100vh - 56px - 4px); overflow:visible; }
+    .card-video{ max-height:none; aspect-ratio:3/4; flex:none; }
 }
 </style>
 @endpush
