@@ -3,15 +3,24 @@
         <label class="flbl"><i class="fas fa-tag" style="color:var(--accent);margin-right:5px"></i>Kategori *</label>
         <select name="kategori" class="inp" required>
             <option value="">— Pilih Kategori —</option>
-            @foreach(['angka'=>'🔢 Angka','keluarga'=>'🫂 Keluarga','benda'=>'📚 Benda Sekolah','sapaan'=>'👋 Kata Sapaan','kata kerja'=>'👋] as $k => $l)
-            <option value="{{ $k }}" {{ old('kategori', $konten?->kategori) === $k ? 'selected' : '' }}>{{ $l }}</option>
+            @php
+                $daftarKategori = [
+                    'angka' => '🔢 Angka',
+                    'keluarga' => '🫂 Keluarga',
+                    'benda' => '📚 Benda Sekolah',
+                    'sapaan' => '👋 Kata Sapaan',
+                ];
+                $kategoriTerpilih = old('kategori', $konten?->kategori);
+            @endphp
+            @foreach($daftarKategori as $kategoriValue => $kategoriLabel)
+            <option value="{{ $kategoriValue }}" {{ $kategoriTerpilih === $kategoriValue ? 'selected' : '' }}>{{ $kategoriLabel }}</option>
             @endforeach
         </select>
         @error('kategori')<div class="ferr"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>@enderror
     </div>
     <div>
-        <label class="flbl">Urutan *</label>
-        <input type="number" name="urutan" value="{{ old('urutan', $konten?->urutan ?? 0) }}" min="0" class="inp" placeholder="0" required>
+        <label class="flbl">Urutan</label>
+        <input type="number" name="urutan" value="{{ old('urutan', $konten?->urutan ?? 0) }}" min="0" class="inp" placeholder="0">
     </div>
 </div>
 
@@ -32,21 +41,19 @@
 <div style="margin-bottom:18px">
     <label class="flbl">
         <i class="fas fa-comments" style="color:var(--yellow);margin-right:5px"></i>
-        Teks Bahasa Belinyu *
+        Teks Bahasa Belinyu
+        <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(opsional)</span>
     </label>
     <input type="text" name="teks_belinyu" value="{{ old('teks_belinyu', $konten?->teks_belinyu) }}"
-        placeholder="Terjemahan dalam Bahasa Belinyu..." class="inp" required>
-    @error('teks_belinyu')<div class="ferr"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>@enderror
+        placeholder="Terjemahan dalam Bahasa Belinyu..." class="inp">
 </div>
 
 {{-- ── UPLOAD MEDIA ── --}}
 <div>
     <label class="flbl">
         <i class="fas fa-film" style="color:var(--purple);margin-right:5px"></i>
-        Upload GIF / Video Isyarat {{ $konten ? '' : '*' }}
-        @if($konten)
-        <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(kosongkan jika tidak ingin ganti video)</span>
-        @endif
+        Upload GIF / Video Isyarat
+        <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(opsional)</span>
     </label>
 
     {{-- Preview media yang sudah ada --}}
@@ -79,7 +86,6 @@
         <div style="font-size:12px;color:var(--text3)">GIF, MP4, WebM, MOV — maks. 20 MB</div>
         <input type="file" id="media_file_input" name="media_file"
                accept=".gif,.mp4,.webm,.mov" style="display:none"
-               {{ $konten ? '' : 'required' }}
                onchange="previewMedia(this)">
     </div>
 
@@ -119,6 +125,7 @@ function previewMedia(input) {
     name.textContent = file.name;
     wrap.style.display = 'block';
 
+    // highlight dropzone
     const dz = document.getElementById('drop-zone');
     dz.style.borderColor = 'var(--accent)';
     dz.style.background  = 'var(--accent-light)';
@@ -140,6 +147,7 @@ function handleDrop(e) {
     const input = document.getElementById('media_file_input');
     const dt    = e.dataTransfer;
     if (!dt.files.length) return;
+    // assign files to input
     const transfer = new DataTransfer();
     transfer.items.add(dt.files[0]);
     input.files = transfer.files;
