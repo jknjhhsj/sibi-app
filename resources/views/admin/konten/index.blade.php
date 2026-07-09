@@ -18,6 +18,7 @@
             'keluarga' => ['Keluarga', '🫂', '#E6F4ED', '#1A4F8B', '#B6DEC8'],
             'benda'    => ['Benda',    '📚', '#FEF3C7', '#D97706', '#FDE68A'],
             'sapaan'   => ['Sapaan',   '👋', '#EFF6FF', '#2563EB', '#BFDBFE'],
+            'kata kerja'   => ['kata kerja',   '👋', '#EFF6FF', '#2563EB', '#BFDBFE'],
         ];
         $active = request('kategori', '');
         @endphp
@@ -77,10 +78,11 @@
             @forelse($konten as $k)
             @php
             $catCfg = [
-                'angka'    => ['#E6F4ED', '#1B6B45', '🔢'],
-                'keluarga' => ['#EBF5FB', '#2471A3', '🫂'],
-                'benda'    => ['#F4ECF7', '#7D3C98', '📚'],
-                'sapaan'   => ['#FEF9E7', '#D68910', '👋'],
+                'angka'       => ['#E6F4ED', '#1B6B45', '🔢'],
+                'keluarga'    => ['#EBF5FB', '#2471A3', '🫂'],
+                'benda'       => ['#F4ECF7', '#7D3C98', '📚'],
+                'sapaan'      => ['#FEF9E7', '#D68910', '👋'],
+                'kata kerja'   => ['#FEF9E7', '#D68910', '👋'],
             ];
             [$cbg, $ccol, $cem] = $catCfg[$k->kategori] ?? ['#F3F4F6', '#6B7280', '❓'];
             @endphp

@@ -27,6 +27,7 @@ class SiswaController extends Controller {
             'keluarga' => KontenSibi::where('kategori','keluarga')->count(),
             'benda'    => KontenSibi::where('kategori','benda')->count(),
             'sapaan'   => KontenSibi::where('kategori','sapaan')->count(),
+            'kata kerja'   => KontenSibi::where('kategori','kerja')->count(),
         ];
         $totalKosakata = array_sum($kosakata);
 

@@ -3,7 +3,7 @@
         <label class="flbl"><i class="fas fa-tag" style="color:var(--accent);margin-right:5px"></i>Kategori *</label>
         <select name="kategori" class="inp" required>
             <option value="">— Pilih Kategori —</option>
-            @foreach(['angka'=>'🔢 Angka','keluarga'=>'🫂 Keluarga','benda'=>'📚 Benda Sekolah','sapaan'=>'👋 Kata Sapaan'] as $k => $l)
+            @foreach(['angka'=>'🔢 Angka','keluarga'=>'🫂 Keluarga','benda'=>'📚 Benda Sekolah','sapaan'=>'👋 Kata Sapaan','kata kerja'=>'👋] as $k => $l)
             <option value="{{ $k }}" {{ old('kategori', $konten?->kategori) === $k ? 'selected' : '' }}>{{ $l }}</option>
             @endforeach
         </select>

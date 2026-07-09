@@ -181,8 +181,6 @@
 
 @media(min-width:768px){
     .card-viewer{ max-width:480px; }
-    .modul-page{ height:auto; min-height:calc(100vh - 56px - 4px); overflow:visible; }
-    .card-video{ max-height:none; aspect-ratio:3/4; flex:none; }
 }
 </style>
 @endpush
@@ -296,7 +294,21 @@ $cardsData = $konten->values()->map(function($c) {
 const CARDS = {!! json_encode($cardsData) !!};
 const C1 = "{{ $config['c1'] }}";
 const TOTAL = CARDS.length;
+const KATEGORI_SLUG = "{{ $kategori }}";
+const CSRF_MODUL = document.querySelector('meta[name=csrf-token]')?.content;
 let cur = 0;
+
+function kirimProgress(idx) {
+    if (!CSRF_MODUL) return;
+    fetch(`/modul/${KATEGORI_SLUG}/progress`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': CSRF_MODUL,
+        },
+        body: JSON.stringify({ index: idx }),
+    }).catch(() => {});
+}
 
 function goTo(idx) {
     if (idx === cur || idx < 0 || idx >= TOTAL) return;
@@ -331,6 +343,7 @@ function goTo(idx) {
 
         cur = idx;
         updateUI();
+        kirimProgress(idx);
     }, 180);
 }
 
@@ -384,6 +397,9 @@ document.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].clientX - sx;
     if (Math.abs(dx) > 44) goSlide(dx < 0 ? 1 : -1);
 }, {passive:true});
+
+// Kirim progress kartu pertama saat halaman baru dibuka
+kirimProgress(0);
 </script>
 
 @endsection

@@ -39,6 +39,7 @@ Route::post('/reset-sandi',  [PasswordResetController::class, 'updatePassword'])
 
 // MODUL & KUIS (bisa diakses tanpa login)
 Route::get('/modul/{kategori}', [ModulController::class, 'show'])->name('modul.show');
+Route::post('/modul/{kategori}/progress', [ModulController::class, 'updateProgress'])->name('modul.progress');
 Route::get('/kuis', [KuisController::class, 'index'])->name('kuis.index');
 Route::get('/kuis/soal/{level}', [KuisController::class, 'soal'])->name('kuis.soal');
 Route::post('/kuis/simpan', [KuisController::class, 'simpan'])->name('kuis.simpan');
