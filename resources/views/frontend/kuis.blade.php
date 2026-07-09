@@ -78,18 +78,18 @@
 
 .q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
 
+.q-body{ display:flex;flex-direction:column; }
+
 .q-gif{
     background:var(--bg);padding:10px;text-align:center;
     height:min(26vh,190px);min-height:90px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     border-bottom:1px solid var(--border);overflow:hidden;
 }
-
-@media(min-width:768px){
-    .q-gif{ height:min(48vh,420px); }
-}
 .q-gif img,.q-gif video{max-height:100%;max-width:100%;height:100%;border-radius:var(--r);object-fit:contain}
 .q-gif-ph{font-size:26px;opacity:.28;margin-bottom:5px}
+
+.q-right{ display:flex;flex-direction:column;min-width:0; }
 
 .q-text{
     font-family:'Outfit',sans-serif;font-size:14px;font-weight:700;
@@ -123,6 +123,17 @@
 .opt-btn.wrong .opt-lbl{background:var(--red);color:#fff}
 .opt-text{font-weight:600;font-size:13px;color:var(--text);flex:1;overflow-wrap:break-word;word-break:break-word;line-height:1.3}
 .opt-ico{font-size:15px;flex-shrink:0}
+
+/* ── DESKTOP: video di kiri, pilihan ABCD di kanan, sejajar ── */
+@media(min-width:768px){
+    .q-body{ flex-direction:row;align-items:stretch; }
+    .q-gif{
+        flex:0 0 40%;
+        height:auto;min-height:340px;
+        border-bottom:none;border-right:1px solid var(--border);
+    }
+    .q-right{ flex:1; }
+}
 
 .feedback-box{
     display:flex;align-items:center;gap:9px;
@@ -247,12 +258,16 @@
     <div class="quiz-wrap">
         <div>
             <div class="q-card">
-                <div class="q-gif" id="gif-box">
-                    <div class="q-gif-ph">🎬</div>
-                    <div style="font-size:12px;font-weight:600;color:var(--text3)">Video Isyarat SIBI</div>
+                <div class="q-body">
+                    <div class="q-gif" id="gif-box">
+                        <div class="q-gif-ph">🎬</div>
+                        <div style="font-size:12px;font-weight:600;color:var(--text3)">Video Isyarat SIBI</div>
+                    </div>
+                    <div class="q-right">
+                        <div class="q-text" id="q-txt"></div>
+                        <div class="opt-list" id="q-opts"></div>
+                    </div>
                 </div>
-                <div class="q-text" id="q-txt"></div>
-                <div class="opt-list" id="q-opts"></div>
             </div>
             <div id="q-fb" style="display:none;margin-top:8px"></div>
         </div>

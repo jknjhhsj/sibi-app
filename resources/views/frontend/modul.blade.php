@@ -53,7 +53,7 @@
     overflow:hidden;
 }
 
-/* ── CARD VIEWER ── */
+/* ── CARD VIEWER (mobile: kolom tunggal, stack ke bawah) ── */
 .card-viewer{
     flex:1;min-height:0;
     display:flex;flex-direction:column;
@@ -63,13 +63,17 @@
     gap:8px;
 }
 
-/* ── VIDEO AREA — tinggi mengikuti tinggi layar, bukan rasio tetap ── */
+.card-main{ flex:1 1 auto; min-height:0; display:flex; }
+.card-side{ display:flex;flex-direction:column;gap:8px;flex-shrink:0; }
+
+/* ── VIDEO AREA — contain supaya orangnya TIDAK PERNAH terpotong ── */
 .card-video{
-    background:var(--surface);
+    background:var(--bg);
     border:1px solid var(--border);
     border-radius:var(--r-lg);
     overflow:hidden;
     flex:1 1 auto;
+    width:100%;
     min-height:120px;
     max-height:38vh;
     display:flex;align-items:center;justify-content:center;
@@ -79,8 +83,7 @@
 .card-video img,
 .card-video video{
     width:100%;height:100%;
-    object-fit:cover;
-    object-position:top;
+    object-fit:contain;
 }
 .card-video-ph{
     display:flex;flex-direction:column;align-items:center;gap:8px;
@@ -154,7 +157,7 @@
     flex-shrink:0;
 }
 
-/* ── RESPONSIVE: layar sempit ── */
+/* ── RESPONSIVE: layar sempit (HP) ── */
 @media(max-width:500px){
     .card-info-val{font-size:17px}
     .card-viewer{padding:8px 10px;gap:6px}
@@ -164,7 +167,7 @@
     .card-video{max-height:34vh}
 }
 
-/* ── RESPONSIVE: layar pendek (HP landscape / HP kecil) ── */
+/* ── RESPONSIVE: layar pendek ── */
 @media(max-height:700px){
     .card-video{max-height:28vh}
     .card-info-val{font-size:16px}
@@ -179,8 +182,21 @@
     .card-info-val{font-size:15px}
 }
 
+/* ── DESKTOP/LAPTOP: video di KIRI, teks+nav di KANAN ── */
 @media(min-width:768px){
-    .card-viewer{ max-width:480px; }
+    .modul-page{ height:auto; min-height:calc(100vh - 60px); overflow:visible; }
+    .card-viewer{
+        flex-direction:row;
+        max-width:900px;
+        gap:20px;
+        padding:24px;
+        align-items:stretch;
+    }
+    .card-main{ flex:0 0 340px; }
+    .card-video{ max-height:none; height:100%; min-height:420px; }
+    .card-side{ flex:1;justify-content:center;gap:14px; }
+    .card-info{ grid-template-columns:1fr 1fr; }
+    .card-info-val{ font-size:24px; }
 }
 </style>
 @endpush
@@ -214,64 +230,71 @@
 <div class="modul-page">
 <div class="card-viewer">
 
-    {{-- VIDEO --}}
-    <div class="card-video" id="card-video">
-        @php $firstGif = $konten->first()?->gif_url; $firstExt = $firstGif ? strtolower(pathinfo($firstGif, PATHINFO_EXTENSION)) : ''; @endphp
-        @if($firstGif)
-            @if(in_array($firstExt, ['mp4','webm','mov']))
-                <video src="{{ asset($firstGif) }}" autoplay loop muted playsinline id="card-img"
-                       style="width:100%;height:100%;object-fit:cover;object-position:top"
-                       onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>
+    {{-- VIDEO (kolom kiri di desktop) --}}
+    <div class="card-main">
+        <div class="card-video" id="card-video">
+            @php $firstGif = $konten->first()?->gif_url; $firstExt = $firstGif ? strtolower(pathinfo($firstGif, PATHINFO_EXTENSION)) : ''; @endphp
+            @if($firstGif)
+                @if(in_array($firstExt, ['mp4','webm','mov']))
+                    <video src="{{ asset($firstGif) }}" autoplay loop muted playsinline id="card-img"
+                           style="width:100%;height:100%;object-fit:contain"
+                           onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>
+                @else
+                    <img src="{{ asset($firstGif) }}" alt="{{ $konten->first()->judul }}" id="card-img"
+                         style="width:100%;height:100%;object-fit:contain"
+                         onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">
+                @endif
             @else
-                <img src="{{ asset($firstGif) }}" alt="{{ $konten->first()->judul }}" id="card-img"
-                     style="width:100%;height:100%;object-fit:cover;object-position:top"
-                     onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">
+                <div class="card-video-ph">
+                    <span>🎬</span>
+                    <p>Video belum tersedia</p>
+                </div>
             @endif
-        @else
-            <div class="card-video-ph">
-                <span>🎬</span>
-                <p>Video belum tersedia</p>
+        </div>
+    </div>
+
+    {{-- TEKS + DOTS + NAV + CTA (kolom kanan di desktop) --}}
+    <div class="card-side">
+
+        {{-- TEXT INFO --}}
+        <div class="card-info" id="card-info">
+            <div class="card-info-cell">
+                <div class="card-info-lbl">🤟 Isyarat SIBI</div>
+                <div class="card-info-val" id="txt-sibi">{{ $konten->first()?->teks_sibi }}</div>
             </div>
-        @endif
-    </div>
-
-    {{-- TEXT INFO --}}
-    <div class="card-info" id="card-info">
-        <div class="card-info-cell">
-            <div class="card-info-lbl">🤟 Isyarat SIBI</div>
-            <div class="card-info-val" id="txt-sibi">{{ $konten->first()?->teks_sibi }}</div>
+            <div class="card-info-cell" style="background:var(--yellow-light);border-color:#FDE68A">
+                <div class="card-info-lbl" style="color:var(--yellow)">🗣️ Belinyu</div>
+                <div class="card-info-val" style="color:var(--yellow)" id="txt-bel">{{ $konten->first()?->teks_belinyu ?: '—' }}</div>
+            </div>
         </div>
-        <div class="card-info-cell" style="background:var(--yellow-light);border-color:#FDE68A">
-            <div class="card-info-lbl" style="color:var(--yellow)">🗣️ Belinyu</div>
-            <div class="card-info-val" style="color:var(--yellow)" id="txt-bel">{{ $konten->first()?->teks_belinyu ?: '—' }}</div>
+
+        {{-- DOTS --}}
+        <div class="dots-row" id="dots-row">
+            @foreach($konten as $idx => $_)
+            <button class="dot {{ $idx === 0 ? 'active' : '' }}"
+                    onclick="goTo({{ $idx }})"
+                    style="{{ $idx === 0 ? 'width:18px;background:'.$config['c1'] : '' }}">
+            </button>
+            @endforeach
         </div>
-    </div>
 
-    {{-- DOTS --}}
-    <div class="dots-row" id="dots-row">
-        @foreach($konten as $idx => $_)
-        <button class="dot {{ $idx === 0 ? 'active' : '' }}"
-                onclick="goTo({{ $idx }})"
-                style="{{ $idx === 0 ? 'width:18px;background:'.$config['c1'] : '' }}">
-        </button>
-        @endforeach
-    </div>
+        {{-- NAV BUTTONS --}}
+        <div class="card-nav">
+            <button class="nav-btn" id="btn-prev" onclick="goSlide(-1)" disabled>
+                <i class="fas fa-chevron-left" style="font-size:11px"></i> Sebelumnya
+            </button>
+            <button class="nav-btn nav-btn-next" id="btn-next" onclick="goSlide(1)">
+                Selanjutnya <i class="fas fa-chevron-right" style="font-size:11px"></i>
+            </button>
+        </div>
 
-    {{-- NAV BUTTONS --}}
-    <div class="card-nav">
-        <button class="nav-btn" id="btn-prev" onclick="goSlide(-1)" disabled>
-            <i class="fas fa-chevron-left" style="font-size:11px"></i> Sebelumnya
-        </button>
-        <button class="nav-btn nav-btn-next" id="btn-next" onclick="goSlide(1)">
-            Selanjutnya <i class="fas fa-chevron-right" style="font-size:11px"></i>
-        </button>
-    </div>
+        {{-- CTA --}}
+        <a href="{{ route('kuis.index') }}" class="card-cta"
+           style="background:var(--yellow-light);border:1.5px solid #FDE68A;color:var(--yellow)">
+            🏆 Selesai? Lanjut ke Kuis!
+        </a>
 
-    {{-- CTA --}}
-    <a href="{{ route('kuis.index') }}" class="card-cta"
-       style="background:var(--yellow-light);border:1.5px solid #FDE68A;color:var(--yellow)">
-        🏆 Selesai? Lanjut ke Kuis!
-    </a>
+    </div>
 
 </div>
 </div>
@@ -325,9 +348,9 @@ function goTo(idx) {
         if (c.gif) {
             const isVideo = ['mp4','webm','mov'].includes(c.ext);
             if (isVideo) {
-                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:cover;object-position:top" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
+                video.innerHTML = `<video src="${c.gif}" autoplay loop muted playsinline id="card-img" style="width:100%;height:100%;object-fit:contain" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'"></video>`;
             } else {
-                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" style="width:100%;height:100%;object-fit:cover;object-position:top" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
+                video.innerHTML = `<img src="${c.gif}" alt="${c.judul}" id="card-img" style="width:100%;height:100%;object-fit:contain" onerror="this.parentElement.innerHTML='<div class=card-video-ph><span>🎬</span><p>Video belum tersedia</p></div>'">`;
             }
         } else {
             video.innerHTML = '<div class="card-video-ph"><span>🎬</span><p>Video belum tersedia</p></div>';
@@ -398,7 +421,6 @@ document.addEventListener('touchend', e => {
     if (Math.abs(dx) > 44) goSlide(dx < 0 ? 1 : -1);
 }, {passive:true});
 
-// Kirim progress kartu pertama saat halaman baru dibuka
 kirimProgress(0);
 </script>
 
